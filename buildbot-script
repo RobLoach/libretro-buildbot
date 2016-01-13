@@ -1,4 +1,6 @@
 #!/bin/sh
+git pull
+
 export BASEDIR=/home/buildbot
 screen -dmS buildbot /home/buildbot/scripts/buildbot-master >> /tmp/log
 screen -list >> /tmp/log
