@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $BASEDIR/scripts/buildbot-conf
+source $BASEDIR/scripts/buildbot.conf
 
 echo Enviroment Vars:
 echo
