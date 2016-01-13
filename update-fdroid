@@ -1,0 +1,24 @@
+#/bin/sh
+
+ZIPDATE=`date +%Y-%m-%d`
+
+if [ ! -f $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk ]; then
+   echo nothing to do here
+   exit
+else
+   echo "packaging"
+fi
+
+
+cd $BASEDIR.fdroid/repo
+rm *.apk
+cp $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk .
+mv ${ZIPDATE}-RetroArch.apk RetroArch.apk
+
+cd $BASEDIR.fdroid/metadata
+cat com.retroarch.txt-orig > com.retroarch.txt
+
+cd ..
+fdroid update
+fdroid server update -v
+

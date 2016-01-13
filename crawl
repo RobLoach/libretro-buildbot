@@ -1,0 +1,9 @@
+#!/bin/bash
+
+curr=$PWD
+basedir=$1
+for dir in $(find "$basedir" -mindepth 1 -maxdepth 100 -type d); do
+   cd $dir
+   find . -maxdepth 1 -type f | cut --fields=2 --delimiter="/" | grep --invert-match .index | sort > .index
+   cd $curr
+done

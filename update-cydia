@@ -1,0 +1,114 @@
+#/bin/sh
+
+PKGDATE=`date +%Y.%m.%d.%H.%M.%S`
+ZIPDATE=`date +%Y-%m-%d`
+
+ls $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip  -la
+
+
+if [ ! -f $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip -o ! -f $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.zip ]; then
+   echo nothing to do here
+   exit
+else
+   echo "packaging"
+fi
+
+mkdir $BASEDIR/.cydia
+cd $BASEDIR/.cydia
+
+rm -rf RetroArch
+rm -rf RetroArch.deb
+rm *.zip
+
+mkdir RetroArch
+mkdir -p RetroArch/Applications
+mkdir -p RetroArch/DEBIAN
+
+cd RetroArch/Applications
+cp $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip .
+unzip ${ZIPDATE}_RetroArch.zip
+rm ${ZIPDATE}_RetroArch.zip
+cd ..
+cd DEBIAN
+
+cat << EOF > control
+Package: com.libretro.RetroArch
+Name: RetroArch
+Version: 1.3.0.${PKGDATE}
+Architecture: iphoneos-arm
+Description: RetroArch Nightlies
+Homepage: http://www.libretro.com
+Depiction: http://buildbot.libretro.com/repo/cydia/retroarch.png
+Maintainer: Radius
+Author: Twinaphex
+Sponsor:
+Section: Games
+Icon: http://buildbot.libretro.com/repo/cydia/retroarch-icon.png
+
+
+EOF
+
+
+mkdir $BASEDIR/.cydia
+cd $BASEDIR/.cydia
+
+rm -rf RetroArch9
+rm -rf RetroArch9.deb
+rm *.zip
+
+mkdir RetroArch9
+mkdir -p RetroArch9/Applications
+mkdir -p RetroArch9/DEBIAN
+
+cd RetroArch9/Applications
+cp $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.zip .
+unzip ${ZIPDATE}_RetroArch_iOS9.zip
+rm ${ZIPDATE}_RetroArch_iOS9.zip
+mv *.app RetroArch.app
+cd ..
+cd DEBIAN
+
+cat << EOF > control
+Package: com.libretro.RetroArch9
+Name: RetroArch (iOS 9)
+Version: 1.3.0.${PKGDATE}
+Architecture: iphoneos-arm
+Description: RetroArch Nightlies for iOS9
+Homepage: http://www.libretro.com
+Depiction: http://buildbot.libretro.com/repo/cydia/retroarch.png
+Maintainer: Radius
+Author: Twinaphex
+Sponsor:
+Section: Games
+Icon: http://buildbot.libretro.com/repo/cydia/retroarch-icon.png
+
+
+EOF
+
+cd
+cd $BASEDIR/.cydia
+
+dpkg-deb -Zgzip -b RetroArch
+dpkg-deb -Zgzip -b RetroArch9
+
+cp -rf RetroArch.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
+cp -rf RetroArch.deb $BASEDIR/www/repo/cydia/RetroArch.deb
+cp -rf RetroArch9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
+cp -rf RetroArch9.deb $BASEDIR/www/repo/cydia/RetroArch9.deb
+
+cd $BASEDIR/www/repo/cydia/
+rm Packages.bz2
+$BASEDIR/tools/cydia/dpkg-scanpackages -m . /dev/null >Packages
+bzip2 Packages
+
+cat << EOF > Release
+Origin: LibRetro Cydia Repository
+Label: libretro
+Suite: nightly
+Version: 1.0
+Codename: vaporeon
+Architectures: iphoneos-arm
+Components: main
+Description: LibRetro Cydia Repository
+
+EOF
