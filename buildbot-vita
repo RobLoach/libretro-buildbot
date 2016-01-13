@@ -2,7 +2,7 @@
 
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_linux
-DEST=$BASEDIR/www/nightly/nintendo/wii/
+DEST=$BASEDIR/www/nightly/playstation/vita/
 LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
@@ -14,27 +14,31 @@ cd $BASEDIR
 cd buildbot
 WORKDIR=$PWD
 
-### wii ###
+### vita ###
 
 # prepare build environment
-BOT=$PWD/wii
+BOT=$PWD/vita
 cd $BOT
 git pull
 
 rm -rf packages
 #build cores
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/nintendo/wii
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/playstation/vita
 
 # create packages and cleanup
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
     echo "Nothing to do here!"
 else
-	echo BUILDBOT TASK: packaging cores
-	CORE_DIR=$PWD/retroarch/pkg/wii
-	mkdir -p $DEST
+    echo BUILDBOT TASK: packaging cores
+    CORE_DIR=$PWD/retroarch/pkg/vita
+    mkdir -p $DEST
+    command cd $CORE_DIR
+    echo $
+    ls -la
 
-	cd $CORE_DIR
-	7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+    7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
 fi
+
 ## end ###
 rm $TMPDIR/built-cores $TMPDIR/built-frontend
+

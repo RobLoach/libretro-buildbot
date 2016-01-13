@@ -1,0 +1,85 @@
+#!/bin/bash
+
+LOGDATE=`date +%Y-%m-%d`
+BUILDBOT=darkfire
+DEST=$BASEDIR/www/assets/frontend
+LOGDEST=$BASEDIR/www/log/
+echo $LOGDATE $BUILDBOT
+TMPDIR=$BASEDIR/.tmp/
+
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+echo Buildbot Summary | tee -a  $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+cd $BASEDIR
+cd buildbot
+WORKDIR=$PWD
+
+### assets ###
+
+# prepare build environment
+BOT=$PWD/assets
+cd $BOT
+
+git clone https://github.com/libretro/retroarch-joypad-autoconfig.git autoconf
+git clone https://github.com/libretro/libretro-super.git super
+git clone https://github.com/libretro/common-shaders shaders_cg
+git clone https://github.com/libretro/retroarch-assets assets
+git clone https://github.com/libretro/common-overlays.git overlays
+git clone https://github.com/libretro/libretro-database.git database
+
+cd autoconf
+git pull
+git archive --format zip --output ../autoconf.zip master
+cd $BOT
+
+cd super
+git pull
+cd dist/info
+zip -j $BOT/info.zip *.info
+cd $BOT
+
+cd shaders_cg
+git pull
+git archive --format zip --output ../shaders_cg.zip master
+cd $BOT
+
+cd assets
+git pull
+git archive --format zip --output ../assets.zip master
+cd $BOT
+
+cd overlays
+git pull
+git archive --format zip --output ../overlays.zip master
+cd $BOT
+
+cd database
+git pull
+cd $BOT
+
+cd database/cht
+zip -r $BOT/cheats.zip *
+cd $BOT
+cd database/cursors
+zip -r $BOT/database-cursors.zip *
+cd $BOT
+cd database/rdb
+zip -r $BOT/database-rdb.zip *
+cd $BOT
+
+cp -rfv  $BASEDIR/buildbot/android/retroarch/media/shaders_glsl $TMPDIR
+cd $TMPDIR/shaders_glsl/
+rm -rfv .git
+git clone https://github.com/hizzlekizzle/glsl-shaders hunterk
+cd hunterk
+rm -rfv .git
+cd ..
+zip -r $BOT/shaders_glsl.zip *
+cd $BOT
+
+cp -v *.zip $DEST/
+rm -v *.zip
+rm -rfv $TMPDIR/shaders_glsl
+
+## end ###
+

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+export LOGURL="https://floating.muncher.se/bot/connect/buildbot.php"
+export SIG="7228ac738c16cb97c474cceea5013204"
+export UPLOAD="radius@libretro.com:/srv/bot.libretro.com"
+
+export BUILDBOT_OSX="192.168.168.129"
+export BUILDBOT_WIN="192.168.168.130"
+export BUILDBOT_LINUX_X86="10.0.3.159"
+export BUILDBOT_LINUX_ARMHF="10.0.3.82"
+export BASEDIR=/home/buildbot

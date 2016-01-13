@@ -1,0 +1,3 @@
+#!/bin/sh
+export BASEDIR=/home/buildbot
+screen -dmS buildbot /home/buildbot/scripts/buildbot-master
