@@ -22,6 +22,7 @@ buildbot_log() {
 }
 
 mkdir $BASEDIR/.tmp
+mkdir $BASEDIR/log
 
 if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
    touch $BASEDIR/.tmp/buildbot.lock

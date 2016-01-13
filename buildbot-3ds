@@ -36,7 +36,7 @@ else
     echo $
     ls -la
 
-#    7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+#   7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
     7z a -mx9 $DEST/$(date +%F)_RetroArch_3dsx.7z 3ds retroarch
     7z a -mx9 $DEST/$(date +%F)_RetroArch_cia.7z cia retroarch
     7z a -mx9 $DEST/$(date +%F)_RetroArch_3ds.7z rom retroarch
