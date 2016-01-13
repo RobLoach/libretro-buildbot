@@ -77,9 +77,48 @@ cd ..
 zip -r $BOT/shaders_glsl.zip *
 cd $BOT
 
-cp -v *.zip $DEST/
-rm -v *.zip
-rm -rfv $TMPDIR/shaders_glsl
+rm -rfv bundle
+mkdir -p bundle/assets
+cd bundle/assets
+unzip $BOT/assets.zip
+cd $BOT
+mkdir -p bundle/info
+cd bundle/info
+unzip $BOT/info.zip
+cd $BOT
+mkdir -p bundle/autoconf
+cd bundle/autoconf
+unzip $BOT/autoconf.zip
+cd $BOT
+mkdir -p bundle/database/rdb
+cd bundle/database/rdb
+unzip $BOT/database-rdb.zip
+cd $BOT
+mkdir -p bundle/database/cursors
+cd bundle/database/cursors
+unzip $BOT/database-cursors.zip
+cd $BOT
+mkdir -p bundle/overlays
+cd bundle/overlays
+unzip $BOT/overlays.zip.zip
+cd $BOT
+mkdir -p bundle/shaders/shaders_glsl
+cd bundle/shaders/shaders_glsl
+unzip $BOT/shaders_glsl.zip
+cd $BOT
+mkdir -p bundle/shaders/shaders_cg
+cd bundle/shaders/shaders_cg
+unzip $BOT/shaders_gc.zip
+cd $BOT
+
+cd bundle
+zip -r $BOT/bundle.zip *
+
+cd $BOT
+
+cp -rfv *.zip $DEST/
+rm -f *.zip
+rm -rf $TMPDIR/shaders_glsl
 
 ## end ###
 
