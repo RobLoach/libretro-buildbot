@@ -1,0 +1,46 @@
+#!/bin/bash
+
+LOGDATE=`date +%Y-%m-%d`
+BUILDBOT=vaporeon_linux
+DEST=$BASEDIR/www/nightly/nintendo/3ds/
+LOGDEST=$BASEDIR/www/log/
+echo $LOGDATE $BUILDBOT
+TMPDIR=$BASEDIR/.tmp/
+
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+echo Buildbot Summary | tee -a  $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+cd $BASEDIR
+cd buildbot
+WORKDIR=$PWD
+
+### 3ds ###
+
+# prepare build environment
+BOT=$PWD/3ds
+cd $BOT
+git pull
+
+rm -rf packages
+#build cores
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/nintendo/3ds
+
+# create packages and cleanup
+if [ ! -f $TMPDIR/built-frontend ]; then
+    echo "Nothing to do here!"
+else
+    echo BUILDBOT TASK: packaging cores
+    CORE_DIR=$PWD/retroarch/pkg/3ds
+    mkdir -p $DEST
+    command cd $CORE_DIR
+    echo $
+    ls -la
+
+#    7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+    7z a -mx9 $DEST/$(date +%F)_RetroArch_3dsx.7z 3ds retroarch
+    7z a -mx9 $DEST/$(date +%F)_RetroArch_cia.7z cia retroarch
+    7z a -mx9 $DEST/$(date +%F)_RetroArch_3ds.7z rom retroarch
+fi
+
+## end ###
+rm $TMPDIR/built-cores $TMPDIR/built-frontend

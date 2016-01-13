@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $WORKDIR/scripts/buildbot-conf
+source $BASEDIR/scripts/buildbot-conf
 
 echo Enviroment Vars:
 echo
@@ -10,7 +10,7 @@ echo BUILDBOT_OSX=$BUILDBOT_OSX
 echo BUILDBOT_WIN=$BUILDBOT_WIN
 echo BUILDBOT_LINUX_X86=$BUILDBOT_LINUX_X86
 echo BUILDBOT_LINUX_ARMHF=$BUILDBOT_LINUX_ARMHF
-echo WORKDIR=$WORKDIR
+echo BASEDIR=$BASEDIR
 
 buildbot_log() {
 
@@ -21,10 +21,10 @@ buildbot_log() {
         curl --max-time 30 --data "message=$MESSAGE&sign=$HASH" $LOGURL
 }
 
-mkdir $WORKDIR/.tmp
+mkdir $BASEDIR/.tmp
 
-if [ ! -f $WORKDIR/.tmp/buildbot.lock ]; then
-   touch $WORKDIR/.tmp/buildbot.lock
+if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
+   touch $BASEDIR/.tmp/buildbot.lock
    echo "buildbot not running"
 
 else
@@ -33,90 +33,90 @@ else
 fi
 
 # Console targets first, usually smaller
-$WORKDIR/scripts/buildbot-3ds
-rsync $WORKDIR/www/ $UPLOAD -av
-$WORKDIR/scripts/buildbot-ngc
-rsync $WORKDIR/www/ $UPLOAD -av
-$WORKDIR/scripts/buildbot-wii
-rsync $WORKDIR/www/ $UPLOAD -av
-$WORKDIR/scripts/buildbot-psp
-rsync $WORKDIR/www/ $UPLOAD -av
-$WORKDIR/scripts/buildbot-vita
-rsync $WORKDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-3ds
+rsync $BASEDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-ngc
+rsync $BASEDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-wii
+rsync $BASEDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-psp
+rsync $BASEDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-vita
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
-find $WORKDIR/www -type f -exec rm -rv {} \;
+find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Android
-$WORKDIR/scripts/buildbot-android
-rsync $WORKDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-android
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
-$WORKDIR/scripts/update-fdroid | grep apk
+$BASEDIR/scripts/update-fdroid | grep apk
 if [ $? -eq 0 ]; then
    buildbot_log "retroarch build published [f-droid]"
 fi
 
 # Assets
-$WORKDIR/scripts/buildbot-assets
-rsync $WORKDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-assets
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
-find $WORKDIR/www -type f -exec rm -rv {} \;
+find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Blackberry & Linux
-$WORKDIR/scripts/buildbot-blackberry
-rsync $WORKDIR/www/ $UPLOAD -av
-$WORKDIR/scripts/buildbot-linux
-rsync $WORKDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-blackberry
+rsync $BASEDIR/www/ $UPLOAD -av
+$BASEDIR/scripts/buildbot-linux
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
-find $WORKDIR/www -type f -exec rm -rv {} \;
+find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # iOS, OSX
 ssh $BUILDBOT_OSX -Y /Users/buildbot/buildbot-master
 
 # Sync files from the VMs and upload
-rsync $BUILDBOT_OSX:/Users/buildbot/www/* $WORKDIR/www/ -av
-rsync $WORKDIR/www/ $UPLOAD -av
+rsync $BUILDBOT_OSX:/Users/buildbot/www/* $BASEDIR/www/ -av
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update Cydia
-$WORKDIR/scripts/update-cydia
-rsync $WORKDIR/www/ $UPLOAD -av | grep deb
+$BASEDIR/scripts/update-cydia
+rsync $BASEDIR/www/ $UPLOAD -av | grep deb
 if [ $? -eq 0 ]; then
    buildbot_log "retroarch build published [cydia]"
 fi
 
 # Cleanup the local cache
-find $WORKDIR/www -type f -exec rm -rv {} \;
+find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Windows
-ssh $BUILDBOT_WIN -Y $WORKDIR/buildbot-master
+ssh $BUILDBOT_WIN -Y $BASEDIR/buildbot-master
 
 # Sync files from the VMs and upload
-rsync $BUILDBOT_WIN:$WORKDIR/www/* $WORKDIR/www/ -av
-rsync $WORKDIR/www/ $UPLOAD -av
+rsync $BUILDBOT_WIN:$BASEDIR/www/* $BASEDIR/www/ -av
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux x86
-ssh $BUILDBOT_LINUX_X86 -Y $WORKDIR/scripts/buildbot-master
+ssh $BUILDBOT_LINUX_X86 -Y $BASEDIR/scripts/buildbot-master
 
 # Sync files from the VMs and upload
-rsync $BUILDBOT_LINUX_X86:$WORKDIR/www/* $WORKDIR/www/ -av
-rsync $WORKDIR/www/ $UPLOAD -av
+rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the VM cache
 ssh $BUILDBOT_OSX -Y "find /Users/buildbot/www -type f -exec rm -fv {} \;"
 ssh $BUILDBOT_OSX -Y "find /Users/buildbot/tmp -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_WIN -Y "find $WORKDIR/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_WIN -Y "find $WORKDIR/tmp -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_LINUX_X86 -Y "find $WORKDIR/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_LINUX_X86 -Y "find $WORKDIR/tmp -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_WIN -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_WIN -Y "find $BASEDIR/tmp -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_LINUX_X86 -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_LINUX_X86 -Y "find $BASEDIR/tmp -type f -exec rm -fv {} \;"
 
 # Cleanup the local cache
-find $WORKDIR/www -type f -exec rm -rv {} \;
-find $WORKDIR/.tmp -type f -exec rm -rv {} \;
+find $BASEDIR/www -type f -exec rm -rv {} \;
+find $BASEDIR/.tmp -type f -exec rm -rv {} \;
 
-rm $WORKDIR/.tmp/buildbot.lock
-rm $WORKDIR/.tmp/built*
+rm $BASEDIR/.tmp/buildbot.lock
+rm $BASEDIR/.tmp/built*
 
 
