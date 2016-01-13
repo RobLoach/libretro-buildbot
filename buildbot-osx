@@ -1,0 +1,114 @@
+#!/bin/bash
+
+LOGDATE=`date +%Y-%m-%d`
+BUILDBOT=vaporeon_osx
+DEST=$BASEDIR/www/nightly/apple/osx/x86_64
+LOGDEST=$BASEDIR/www/log
+echo $LOGDATE $BUILDBOT
+TMPDIR=$BASEDIR/.tmp/
+
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+echo Buildbot Summary | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+cd $BASEDIR
+cd buildbot
+WORKDIR=$PWD
+
+### osx x86_64 ###
+
+# prepare build environment
+BOT=$PWD/osx
+cd $BOT
+git pull
+
+rm -rf packages
+#build cores
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
+
+# create packages and cleanup
+if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
+    echo "Nothing to do here!"
+else
+	echo BUILDBOT TASK: packaging cores
+	CORE_DIR=$PWD/packages/$(date +%F)_cores
+	RA_DIR=$PWD/packages/$(date +%F)_retroarch
+	RACG_DIR=$PWD/packages/$(date +%F)_retroarch_cg
+
+	rm -rfv $CORE_DIR
+	rm -rfv $RA_DIR
+	rm -rfv $RACG_DIR
+
+	mkdir -p $CORE_DIR
+	mkdir -p $DEST
+
+	cd $CORE_DIR
+	mkdir ../latest
+
+	find ../../dist/osx-x86_64 -name '*.dylib' -mmin -2160 -exec cp '{}' . \;
+
+	find . -type f -name '*.dylib' -exec zip -j '{}'.zip '{}' \;
+	find . -type f -name '*.dylib' -exec rm -v '{}' \;
+	cp -v *.zip ../latest/
+	rm -v *.zip
+
+        cd $RA_DIR
+        cp -rv ../../retroarch/pkg/apple/build/Release/RetroArch.app .
+
+	mkdir -p RetroArch.app/Contents/Resources/assets
+	mkdir -p RetroArch.app/Contents/Resources/autoconfig
+	mkdir -p RetroArch.app/Contents/Resources/cht
+	mkdir -p RetroArch.app/Contents/Resources/config
+	mkdir -p RetroArch.app/Contents/Resources/cursors
+	mkdir -p RetroArch.app/Contents/Resources/info
+	mkdir -p RetroArch.app/Contents/Resources/overlays
+	mkdir -p RetroArch.app/Contents/Resources/playlists
+	mkdir -p RetroArch.app/Contents/Resources/rdb   
+	mkdir -p RetroArch.app/Contents/Resources/remaps
+	mkdir -p RetroArch.app/Contents/Resources/shaders
+
+	cp -rv ../../retroarch/media/assets/ RetroArch.app/Contents/Resources/assets/
+	cp -rv ../../retroarch/media/autoconfig/ RetroArch.app/Contents/Resources/autoconfig/
+	cp -rv ../../retroarch/media/overlays/ RetroArch.app/Contents/Resources/overlays/
+	cp -rv ../../dist/info/ RetroArch.app/Contents/Resources/info/
+	rm -rfv RetroArch.app/Contents/Resources/assets/.git
+	rm -rfv RetroArch.app/Contents/Resources/autoconfig/.git
+	rm -rfv RetroArch.app/Contents/Resources/overlays/.git
+
+	zip -r $DEST/$(date +%F)_RetroArch.zip .
+        rm -rfv RetroArch.app
+
+        cp -rv "../../retroarch/pkg/apple/build/Release/RetroArchCg.app" .
+	mv "RetroArchCg.app" RetroArch.app
+
+	mkdir -p RetroArch.app/Contents/Resources/assets
+	mkdir -p RetroArch.app/Contents/Resources/autoconfig
+	mkdir -p RetroArch.app/Contents/Resources/cht
+	mkdir -p RetroArch.app/Contents/Resources/config
+	mkdir -p RetroArch.app/Contents/Resources/cursors
+	mkdir -p RetroArch.app/Contents/Resources/info
+	mkdir -p RetroArch.app/Contents/Resources/overlays
+	mkdir -p RetroArch.app/Contents/Resources/playlists
+	mkdir -p RetroArch.app/Contents/Resources/rdb   
+	mkdir -p RetroArch.app/Contents/Resources/remaps
+	mkdir -p RetroArch.app/Contents/Resources/shaders
+
+	cp -rv ../../retroarch/media/assets/ RetroArch.app/Contents/Resources/assets/
+	cp -rv ../../retroarch/media/autoconfig/ RetroArch.app/Contents/Resources/autoconfig/
+	cp -rv ../../retroarch/media/overlays/ RetroArch.app/Contents/Resources/overlays/
+	cp -rv ../../dist/info/ RetroArch.app/Contents/Resources/info/
+	rm -rfv RetroArch.app/Contents/Resources/assets/.git
+	rm -rfv RetroArch.app/Contents/Resources/autoconfig/.git
+	rm -rfv RetroArch.app/Contents/Resources/overlays/.git
+
+	zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
+        rm -rfv RetroArch.app
+
+	cd $BOT
+	cp -rfv packages/* $DEST
+	cp -rfv $TMPDIR/log/* $LOGDEST
+fi
+
+## end ###
+rm $TMPDIR/built-cores $TMPDIR/built-frontend
+
