@@ -75,7 +75,7 @@ rsync $BASEDIR/www/ $UPLOAD -av
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # iOS, OSX
-ssh $BUILDBOT_OSX -Y /Users/buildbot/buildbot-master
+ssh $BUILDBOT_OSX -Y /Users/buildbot/scripts/buildbot-script-osx
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_OSX:/Users/buildbot/www/* $BASEDIR/www/ -av
