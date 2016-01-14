@@ -50,8 +50,8 @@ else
         mkdir -p tmp
         cd tmp
         curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip bundle.zip
-        rm bundle.zip
+        unzip -f bundle.zip
+        rm -rf bundle.zip
         rm -rf shaders/shaders_cg
 
         rm -rf ../RetroArch.app/assets
