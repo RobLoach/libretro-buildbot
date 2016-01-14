@@ -4,4 +4,3 @@ git pull
 
 export BASEDIR=/Users/buildbot
 /Users/buildbot/scripts/buildbot-master-osx
-

@@ -49,8 +49,10 @@ else
 
         mkdir -p tmp
         cd tmp
-        wget http://bot.libretro.com/assets/frontend/bundle.zip
+        curl -O http://bot.libretro.com/assets/frontend/bundle.zip
         unzip bundle.zip
+        rm bundle.zip
+        rm -rf shaders/shaders_cg
 
         rm -rf ../RetroArch.app/assets
         zip -r ../RetroArch.app/assets.zip .
