@@ -108,7 +108,7 @@ unzip $BOT/shaders_glsl.zip
 cd $BOT
 mkdir -p bundle/shaders/shaders_cg
 cd bundle/shaders/shaders_cg
-unzip $BOT/shaders_gc.zip
+unzip $BOT/shaders_cg.zip
 cd $BOT
 
 cd bundle
