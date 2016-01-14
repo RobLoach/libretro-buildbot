@@ -44,7 +44,7 @@ TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=4 $BOT/libretro-buildb
 echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo
 echo
-#TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=4 $BOT/libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=4 $BOT/libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
 
 # ----- packaging -----
 
