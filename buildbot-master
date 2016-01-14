@@ -107,7 +107,10 @@ rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the VM cache
 ssh $BUILDBOT_OSX -Y "find /Users/buildbot/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_OSX -Y "find /Users/buildbot/,tmp -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_OSX -Y "find /Users/buildbot/.tmp -type f -exec rm -fv {} \;"
+
+ssh $BUILDBOT_OSX -Y "find /Users/buildbot/www/nightly/apple/ -type d -empty -exec rm -rfv {} \;"
+
 ssh $BUILDBOT_WIN -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"
 ssh $BUILDBOT_WIN -Y "find $BASEDIR/tmp -type f -exec rm -fv {} \;"
 ssh $BUILDBOT_LINUX_X86 -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"

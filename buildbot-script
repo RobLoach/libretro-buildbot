@@ -1,4 +1,5 @@
 #!/bin/sh
+cd $BASEDIR
 git pull
 
 export BASEDIR=/home/buildbot
