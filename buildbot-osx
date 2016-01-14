@@ -7,12 +7,12 @@ BUILDBOT=vaporeon_osx
 DEST=$BASEDIR/www/nightly/apple/osx/x86_64
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
-WORKDIR=$PWD
+WORKDIR=$BASEDIR/buildbot
 BOT=$WORKDIR/osx
 
-cd $BASEDIR/buildbot
+cd $WORKDIR
 cd $BOT
-rm -rf packages
+rm -rfv packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
@@ -21,10 +21,10 @@ echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
 echo Variables:
-echo WORKDIR   ==>   $WORKDIR
-echo BOTDIR    ==>   $BOT
-echo TMPDIR    ==>   $TMPDIR
-echo DEST      ==>   $DEST
+echo WORKDIR $WORKDIR
+echo BOTDIR  $BOT
+echo TMPDIR  $TMPDIR
+echo DEST    $DEST
 echo
 echo
 
@@ -39,12 +39,12 @@ git pull
 echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo
 echo
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=4 $BOT/libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
 
 echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo
 echo
-#TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
+#TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=4 $BOT/libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
 
 # ----- packaging -----
 
@@ -58,18 +58,17 @@ else
 	CORE_DIR=$BOT/packages/$(date +%F)_cores
 
 	echo Variables:
-	echo COREDIR   ==>   $CORE_DIR
+	echo COREDIR $CORE_DIR
 	echo
 	echo
 
 	rm -rfv $CORE_DIR
-
 	mkdir -p $CORE_DIR
 
 	cd $CORE_DIR
 	mkdir ../latest
 
-	find ../../dist/osx-x86_64 -name '*.dylib' -mmin -2160 -exec cp '{}' . \;
+	find $BOT/dist/osx-x86_64 -name '*.dylib' -mmin -2160 -exec cp '{}' . \;
 
 	find . -type f -name '*.dylib' -exec zip -j '{}'.zip '{}' \;
 	find . -type f -name '*.dylib' -exec rm -v '{}' \;
@@ -87,8 +86,8 @@ else
 	RACG_DIR=$BOT/packages/$(date +%F)_retroarch_cg
 
 	echo Variables:
-	echo RADIR     ==>   $RA_DIR
-	echo RACGDIR   ==>   $RACG_DIR
+	echo RADIR   $RA_DIR
+	echo RACGDIR $RACG_DIR
 	echo
 	echo
 
@@ -117,7 +116,7 @@ else
 
         cd RetroArch.app/Contents/Resources/
         curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip -f bundle.zip
+        unzip -o bundle.zip
         rm -rf bundle.zip
         
 	cd $RACG_DIR
