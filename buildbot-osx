@@ -68,25 +68,12 @@ else
         cp -rv "../../retroarch/pkg/apple/build/Release/RetroArchCg.app" .
 	mv "RetroArchCg.app" RetroArch.app
 
-	mkdir -p RetroArch.app/Contents/Resources/assets
-	mkdir -p RetroArch.app/Contents/Resources/autoconfig
-	mkdir -p RetroArch.app/Contents/Resources/cht
-	mkdir -p RetroArch.app/Contents/Resources/config
-	mkdir -p RetroArch.app/Contents/Resources/cursors
-	mkdir -p RetroArch.app/Contents/Resources/info
-	mkdir -p RetroArch.app/Contents/Resources/overlays
-	mkdir -p RetroArch.app/Contents/Resources/playlists
-	mkdir -p RetroArch.app/Contents/Resources/rdb   
-	mkdir -p RetroArch.app/Contents/Resources/remaps
-	mkdir -p RetroArch.app/Contents/Resources/shaders
-
-	cp -rv ../../retroarch/media/assets/ RetroArch.app/Contents/Resources/assets/
-	cp -rv ../../retroarch/media/autoconfig/ RetroArch.app/Contents/Resources/autoconfig/
-	cp -rv ../../retroarch/media/overlays/ RetroArch.app/Contents/Resources/overlays/
-	cp -rv ../../dist/info/ RetroArch.app/Contents/Resources/info/
-	rm -rfv RetroArch.app/Contents/Resources/assets/.git
-	rm -rfv RetroArch.app/Contents/Resources/autoconfig/.git
-	rm -rfv RetroArch.app/Contents/Resources/overlays/.git
+        cd RetroArch.app/Contents/Resources/
+        curl -O http://bot.libretro.com/assets/frontend/bundle.zip
+        unzip bundle.zip
+        rm bundle.zip
+        
+	cd $RA_DIR
 
 	zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
         rm -rfv RetroArch.app
