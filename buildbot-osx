@@ -1,46 +1,70 @@
 #!/bin/bash
 
+# ----- setup -----
+
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 DEST=$BASEDIR/www/nightly/apple/osx/x86_64
 LOGDEST=$BASEDIR/www/log
-echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
+WORKDIR=$PWD
+BOT=$WORKDIR/osx
+
+cd $BASEDIR/buildbot
+cd $BOT
+rm -rf packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
-echo Buildbot Summary | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+mkdir -p $DEST
 
-cd $BASEDIR
-cd buildbot
-WORKDIR=$PWD
+echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
-### osx x86_64 ###
+echo Variables:
+echo WORKDIR   ==>   $WORKDIR
+echo BOTDIR    ==>   $BOT
+echo TMPDIR    ==>   $TMPDIR
+echo DEST      ==>   $DEST
+echo
+echo
 
-# prepare build environment
-BOT=$PWD/osx
-cd $BOT
+echo updating scripts | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
+
 git pull
 
-rm -rf packages
-#build cores
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
+# ----- buildbot -----
 
-# create packages and cleanup
+echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
+
+echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
+#TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
+
+# ----- packaging -----
+
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
     echo "Nothing to do here!"
 else
-	echo BUILDBOT TASK: packaging cores
-	CORE_DIR=$PWD/packages/$(date +%F)_cores
-	RA_DIR=$PWD/packages/$(date +%F)_retroarch
-	RACG_DIR=$PWD/packages/$(date +%F)_retroarch_cg
+
+	echo packaging cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+	echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+	CORE_DIR=$BOT/packages/$(date +%F)_cores
+
+	echo Variables:
+	echo COREDIR   ==>   $CORE_DIR
+	echo
+	echo
 
 	rm -rfv $CORE_DIR
-	rm -rfv $RA_DIR
-	rm -rfv $RACG_DIR
 
 	mkdir -p $CORE_DIR
-	mkdir -p $DEST
 
 	cd $CORE_DIR
 	mkdir ../latest
@@ -52,19 +76,42 @@ else
 	cp -v *.zip ../latest/
 	rm -v *.zip
 
+	echo
+	echo
+	echo done ...
+
+	echo packaging retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+	echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+	RA_DIR=$BOT/packages/$(date +%F)_retroarch
+	RACG_DIR=$BOT/packages/$(date +%F)_retroarch_cg
+
+	echo Variables:
+	echo RADIR     ==>   $RA_DIR
+	echo RACGDIR   ==>   $RACG_DIR
+	echo
+	echo
+
+	rm -rfv $RA_DIR
+	rm -rfv $RACG_DIR
+
+	mkdir -p $RA_DIR
+	mkdir -p $RACG_DIR
+
         cd $RA_DIR
-        cp -rv ../../retroarch/pkg/apple/build/Release/RetroArch.app .
+        cp -rv $BOT/retroarch/pkg/apple/build/Release/RetroArch.app .
         
         cd RetroArch.app/Contents/Resources/
         curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip -f bundle.zip
+        unzip -o bundle.zip
         rm -rf bundle.zip
-        
-	cd $RA_DIR
-	
+
+        cd $RA_DIR
+       
 	zip -r $DEST/$(date +%F)_RetroArch.zip .
         rm -rfv RetroArch.app
 
+	cd $RACG_DIR
         cp -rv "../../retroarch/pkg/apple/build/Release/RetroArchCg.app" .
 	mv "RetroArchCg.app" RetroArch.app
 
@@ -73,12 +120,13 @@ else
         unzip -f bundle.zip
         rm -rf bundle.zip
         
-	cd $RA_DIR
-
+	cd $RACG_DIR
 	zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
         rm -rfv RetroArch.app
 
 	cd $BOT
+	rm -rfv $RA_DIR
+	rm -rfv $RACG_DIR
 	cp -rfv packages/* $DEST
 	cp -rfv $TMPDIR/log/* $LOGDEST
 fi
