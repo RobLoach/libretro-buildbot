@@ -97,31 +97,33 @@ else
 	mkdir -p $RA_DIR
 	mkdir -p $RACG_DIR
 
-        cd $RA_DIR
-        cp -rv $BOT/retroarch/pkg/apple/build/Release/RetroArch.app .
+   cd $RA_DIR
+   cp -rv $BOT/retroarch/pkg/apple/build/Release/RetroArch.app .
         
-        cd RetroArch.app/Contents/Resources/
-        curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip -o bundle.zip
-        rm -rf bundle.zip
+   cd RetroArch.app/Contents/Resources/
+   curl -O http://bot.libretro.com/assets/frontend/bundle.zip
+   unzip -o bundle.zip
+   rm -rf bundle.zip
 
-        cd $RA_DIR
+   cd $RA_DIR
        
 	zip -r $DEST/$(date +%F)_RetroArch.zip .
-        rm -rfv RetroArch.app
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $DEST/$(date +%F)_RetroArch.dmg
+   rm -rfv RetroArch.app
 
 	cd $RACG_DIR
-        cp -rv "../../retroarch/pkg/apple/build/Release/RetroArchCg.app" .
+   cp -rv "../../retroarch/pkg/apple/build/Release/RetroArchCg.app" .
 	mv "RetroArchCg.app" RetroArch.app
 
-        cd RetroArch.app/Contents/Resources/
-        curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip -o bundle.zip
-        rm -rf bundle.zip
+   cd RetroArch.app/Contents/Resources/
+   curl -O http://bot.libretro.com/assets/frontend/bundle.zip
+   unzip -o bundle.zip
+   rm -rf bundle.zip
         
 	cd $RACG_DIR
 	zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
-        rm -rfv RetroArch.app
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $DEST/$(date +%F)_RetroArchCG.dmg
+   rm -rfv RetroArch.app
 
 	cd $BOT
 	rm -rfv $RA_DIR
