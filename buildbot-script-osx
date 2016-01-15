@@ -1,6 +1,7 @@
 #!/bin/sh
-cd $BASEDIR
-git pull
-
 export BASEDIR=/Users/buildbot
+cd $BASEDIR/scripts
+git pull
+cd $BASEDIR
+
 /Users/buildbot/scripts/buildbot-master-osx

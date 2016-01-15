@@ -1,8 +1,9 @@
 #!/bin/sh
 export BASEDIR=/home/buildbot
-cd $BASEDIR
+cd $BASEDIR/scripts
 git pull
+cd $BASEDIR
 
-screen -dmS buildbot /home/buildbot/scripts/buildbot-master >> /tmp/log
-screen -list >> /tmp/log
-
+screen -dmS buildbot $BASEDIR/scripts/buildbot-master
+#$BASEDIR/scripts/buildbot-master
+screen -list
