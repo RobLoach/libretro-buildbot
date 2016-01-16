@@ -59,6 +59,7 @@ else
    cd $CORE_DIR
 
    rm -rf tmp
+   rm -rf $DEST/$(date +%F)_RetroArch.zip
    zip -r $DEST/$(date +%F)_RetroArch.zip .
    rm -rf RetroArch.app
 
