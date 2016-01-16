@@ -30,42 +30,41 @@ TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
     echo "Nothing to do here!"
 else
-	echo BUILDBOT TASK: packaging cores
-	CORE_DIR=$PWD/packages/$(date +%F)_cores
-	mkdir -p $CORE_DIR
-	mkdir -p $DEST
+   echo BUILDBOT TASK: packaging cores
+   CORE_DIR=$PWD/packages/$(date +%F)_cores
+   mkdir -p $CORE_DIR
+   mkdir -p $DEST
 
-	cd $CORE_DIR
-	mkdir ../latest
+   cd $CORE_DIR
+   mkdir ../latest
 
-	find ../../dist/ios -name '*.dylib' -mmin -2160 -exec cp '{}' . \;
+   find ../../dist/ios -name '*.dylib' -mmin -2160 -exec cp '{}' . \;
 
-	find . -type f -name '*.dylib' -exec zip -j '{}'.zip '{}' \;
-	find . -type f -name '*.dylib' -exec rm -v '{}' \;
-	cp -v *.zip ../latest/
-	rm -v *.zip
+   find . -type f -name '*.dylib' -exec zip -j '{}'.zip '{}' \;
+   find . -type f -name '*.dylib' -exec rm -v '{}' \;
+   cp -v *.zip ../latest/
+   rm -v *.zip
 
    cp -rf ../../retroarch/pkg/apple/build/Release-iphoneos/RetroArch.app .
 
    mkdir -p tmp
    cd tmp
    curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-   unzip -O bundle.zip
+   unzip -o bundle.zip
    rm -rf bundle.zip
 	
-	rm -rf shaders/shaders_cg
-	rm -rf ../RetroArch.app/assets
-	zip -r ../RetroArch.app/assets.zip .
+   rm -rf shaders/shaders_cg
+   rm -rf ../RetroArch.app/assets
+   zip -r ../RetroArch.app/assets.zip .
    cd $CORE_DIR
 
-	rm -rf tmp
+   rm -rf tmp
    zip -r $DEST/$(date +%F)_RetroArch.zip .
    rm -rf RetroArch.app
 
-
-	cd $BOT
-	cp -rfv packages/* $DEST
-	cp -rfv $TMPDIR/log/* $LOGDEST
+   cd $BOT
+   cp -rfv packages/* $DEST
+   cp -rfv $TMPDIR/log/* $LOGDEST
 fi
 
 ## end ###
