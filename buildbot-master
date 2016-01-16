@@ -106,21 +106,19 @@ rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the VM cache
-ssh $BUILDBOT_OSX -Y "find /Users/buildbot/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_OSX -Y "find /Users/buildbot/.tmp -type f -exec rm -fv {} \;"
-
-ssh $BUILDBOT_OSX -Y "find /Users/buildbot/www/nightly/apple/ -type d -empty -exec rm -rfv {} \;"
-
-ssh $BUILDBOT_WIN -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_WIN -Y "find $BASEDIR/tmp -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_LINUX_X86 -Y "find $BASEDIR/www -type f -exec rm -fv {} \;"
-ssh $BUILDBOT_LINUX_X86 -Y "find $BASEDIR/tmp -type f -exec rm -fv {} \;"
+ssh $BUILDBOT_OSX -Y "rm -rfv /Users/buildbot/www/*"
+ssh $BUILDBOT_WIN -Y "rm -rfv $BASEDIR/www/*"
+ssh $BUILDBOT_LINUX_X86 -Y "rm -rfv $BASEDIR/www/*"
 
 # Cleanup the local cache
-find $BASEDIR/www -type f -exec rm -rv {} \;
-find $BASEDIR/.tmp -type f -exec rm -rv {} \;
+rm -rfv $BASEDIR/www/*
 
 rm $BASEDIR/.tmp/buildbot.lock
 rm $BASEDIR/.tmp/built*
+
+
+
+
+
 
 
