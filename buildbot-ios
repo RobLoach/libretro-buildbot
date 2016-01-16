@@ -45,22 +45,22 @@ else
 	cp -v *.zip ../latest/
 	rm -v *.zip
 
-        cp -rf ../../retroarch/pkg/apple/build/Release-iphoneos/RetroArch.app .
+   cp -rf ../../retroarch/pkg/apple/build/Release-iphoneos/RetroArch.app .
 
-        mkdir -p tmp
-        cd tmp
-        curl -O http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip -f bundle.zip
-        rm -rf bundle.zip
+   mkdir -p tmp
+   cd tmp
+   curl -O http://bot.libretro.com/assets/frontend/bundle.zip
+   unzip -O bundle.zip
+   rm -rf bundle.zip
 	
 	rm -rf shaders/shaders_cg
 	rm -rf ../RetroArch.app/assets
 	zip -r ../RetroArch.app/assets.zip .
-        cd $CORE_DIR
+   cd $CORE_DIR
 
 	rm -rf tmp
-        zip -r $DEST/$(date +%F)_RetroArch.zip .
-        rm -rf RetroArch.app
+   zip -r $DEST/$(date +%F)_RetroArch.zip .
+   rm -rf RetroArch.app
 
 
 	cd $BOT
