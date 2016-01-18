@@ -29,6 +29,7 @@ TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-cross
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame2014
 
 # create packages and cleanup
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
