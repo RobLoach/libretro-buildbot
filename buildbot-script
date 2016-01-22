@@ -4,6 +4,5 @@ cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-screen -dmS buildbot $BASEDIR/scripts/buildbot-master
-#$BASEDIR/scripts/buildbot-master
+screen -dmS buildbot "RELEASE="" $BASEDIR/scripts/buildbot-master"
 screen -list

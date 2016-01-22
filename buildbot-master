@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $BASEDIR/scripts/buildbot.conf
+source $BASEDIR/scripts/buildbot.conf$RELEASE
 
 echo Enviroment Vars:
 echo
@@ -11,6 +11,7 @@ echo BUILDBOT_WIN=$BUILDBOT_WIN
 echo BUILDBOT_LINUX_X86=$BUILDBOT_LINUX_X86
 echo BUILDBOT_LINUX_ARMHF=$BUILDBOT_LINUX_ARMHF
 echo BASEDIR=$BASEDIR
+echo RELEASE=$RELEASE
 
 buildbot_log() {
 
