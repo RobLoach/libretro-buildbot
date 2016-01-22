@@ -1,8 +1,9 @@
 #!/bin/sh
 export BASEDIR=/home/buildbot
+export RELEASE=""
 cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-screen -dmS buildbot "RELEASE="" $BASEDIR/scripts/buildbot-master"
+screen -dmS buildbot "RELEASE=$RELEASE $BASEDIR/scripts/buildbot-master"
 screen -list
