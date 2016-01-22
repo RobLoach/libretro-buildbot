@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $BASEDIR/scripts/buildbot.conf$RELEASE
+source $BASEDIR/scripts/buildbot.conf
 
 echo Enviroment Vars:
 echo
@@ -35,41 +35,41 @@ else
 fi
 
 # Console targets first, usually smaller
-$BASEDIR/scripts/buildbot-3ds
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-3ds
 rsync $BASEDIR/www/ $UPLOAD -av
-$BASEDIR/scripts/buildbot-ngc
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-ngc
 rsync $BASEDIR/www/ $UPLOAD -av
-$BASEDIR/scripts/buildbot-wii
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-wii
 rsync $BASEDIR/www/ $UPLOAD -av
-$BASEDIR/scripts/buildbot-psp
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-psp
 rsync $BASEDIR/www/ $UPLOAD -av
-$BASEDIR/scripts/buildbot-vita
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-vita
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Android
-$BASEDIR/scripts/buildbot-android
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
-$BASEDIR/scripts/update-fdroid | grep apk
+RELEASE=$RELEASE $BASEDIR/scripts/update-fdroid | grep apk
 if [ $? -eq 0 ]; then
    buildbot_log "retroarch build published [f-droid]"
 fi
 
 # Assets
-$BASEDIR/scripts/buildbot-assets
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-assets
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Blackberry & Linux
-$BASEDIR/scripts/buildbot-blackberry
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-blackberry
 rsync $BASEDIR/www/ $UPLOAD -av
-$BASEDIR/scripts/buildbot-linux
+RELEASE=$RELEASE $BASEDIR/scripts/buildbot-linux
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
