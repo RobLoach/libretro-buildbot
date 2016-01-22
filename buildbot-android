@@ -9,6 +9,7 @@ TMPDIR=$BASEDIR/.tmp/
 
 if [ "${RELEASE}" = "YES" ]; then
    RELEASEDEST=$BASEDIR/www/.releases/
+   mkdir -p $RELEASEDEST
 else
    RELEASEDEST=$DEST
 fi
@@ -59,12 +60,13 @@ else
         find . -type f -name '*.so' -exec rm -v '{}' \;
         cp -v * ../latest/ -rfv
 
+        echo BUILDBOT TASK: packaging retroarch
         cd $BOT
         if [ "${RELEASE}" = "YES" ]; then
-           cp retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/RetroArch.apk
-           cp retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
+           cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/RetroArch.apk
+           cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
         else
-           cp retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
+           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
         fi
         cp -rfv packages/* $DEST
         cp -rfv $TMPDIR/log/* $LOGDEST
