@@ -2,6 +2,13 @@
 
 source $BASEDIR/scripts/buildbot.conf
 
+if [ "${RELEASE}" = "YES" ]; then
+   FORCE_RETROARCH_BUILD=YES
+   rm $BASEDIR/.tmp/buildbot.lock
+else
+   FORCE_RETROARCH_BUILD=NO
+fi
+
 echo Enviroment Vars:
 echo
 echo LOGURL=$LOGURL
@@ -12,6 +19,7 @@ echo BUILDBOT_LINUX_X86=$BUILDBOT_LINUX_X86
 echo BUILDBOT_LINUX_ARMHF=$BUILDBOT_LINUX_ARMHF
 echo BASEDIR=$BASEDIR
 echo RELEASE=$RELEASE
+echo FORCE_RETROARCH_BUILD=$FORCE_RETROARCH_BUILD
 
 buildbot_log() {
 
