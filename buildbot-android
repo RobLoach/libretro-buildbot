@@ -62,6 +62,7 @@ else
         cd $BOT
         if [ "${RELEASE}" = "YES" ]; then
            cp retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/RetroArch.apk
+           cp retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
         else
            cp retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
         fi
