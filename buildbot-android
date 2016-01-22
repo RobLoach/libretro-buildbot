@@ -60,8 +60,7 @@ else
         find . -type f -name '*.so' -exec rm -v '{}' \;
         cp -v * ../latest/ -rfv
 
-        echo BUILDBOT TASK: packaging retroarch
-        echo $LOGDATE $BUILDBOT $RELEASE
+        echo BUILDBOT TASK: packaging retroarch $RELEASE
         cd $BOT
         if [ "${RELEASE}" = "YES" ]; then
            cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/$(date +%F)-RetroArch.apk
