@@ -4,7 +4,6 @@ source $BASEDIR/scripts/buildbot.conf
 
 if [ "${RELEASE}" = "YES" ]; then
    FORCE_RETROARCH_BUILD=YES
-   rm $BASEDIR/.tmp/buildbot.lock
 else
    FORCE_RETROARCH_BUILD=NO
 fi
@@ -58,6 +57,7 @@ rsync $BASEDIR/www/ $UPLOAD -av
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Android
+# Override Release so we always sign with the production key
 RELEASE=YES $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
