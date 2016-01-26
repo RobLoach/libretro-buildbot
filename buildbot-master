@@ -58,7 +58,7 @@ rsync $BASEDIR/www/ $UPLOAD -av
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Android
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-android
+RELEASE=YES $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
