@@ -1,6 +1,6 @@
 #!/bin/sh
 export BASEDIR=/home/buildbot
-export RELEASE="YES"
+export RELEASE="NO"
 cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
