@@ -8,6 +8,7 @@ echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+mkdir -p $DEST
 echo Buildbot Summary | tee -a  $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
 cd $BASEDIR
@@ -29,28 +30,30 @@ git clone https://github.com/libretro/libretro-database.git database
 
 cd autoconf
 git pull
-git archive --format zip --output ../autoconf.zip master
+git archive --format zip --output $DEST/autoconf.zip master
 cd $BOT
 
 cd super
 git pull
 cd dist/info
-zip -j $BOT/info.zip *.info
+zip -j $DEST/info.zip *.info
+mkdir $DEST/info
+cp *.info $DEST/info
 cd $BOT
 
 cd shaders_cg
 git pull
-git archive --format zip --output ../shaders_cg.zip master
+git archive --format zip --output $DEST/shaders_cg.zip master
 cd $BOT
 
 cd assets
 git pull
-git archive --format zip --output ../assets.zip master
+git archive --format zip --output $DEST/assets.zip master
 cd $BOT
 
 cd overlays
 git pull
-git archive --format zip --output ../overlays.zip master
+git archive --format zip --output $DEST/overlays.zip master
 cd $BOT
 
 cd database
@@ -58,13 +61,13 @@ git pull
 cd $BOT
 
 cd database/cht
-zip -r $BOT/cheats.zip *
+zip -r $DEST/cheats.zip *
 cd $BOT
 cd database/cursors
-zip -r $BOT/database-cursors.zip *
+zip -r $DEST/database-cursors.zip *
 cd $BOT
 cd database/rdb
-zip -r $BOT/database-rdb.zip *
+zip -r $DEST/database-rdb.zip *
 cd $BOT
 
 cp -rfv  $BASEDIR/buildbot/android/retroarch/media/shaders_glsl $TMPDIR
@@ -73,52 +76,48 @@ rm -rfv .git
 git clone https://github.com/hizzlekizzle/glsl-shaders hunterk
 cd hunterk
 rm -rfv .git
-cd ..
-zip -r $BOT/shaders_glsl.zip *
+cd $TMPDIR/shaders_glsl
+zip -r $DEST/shaders_glsl.zip *
 cd $BOT
 
 rm -rfv bundle
 mkdir -p bundle/assets
 cd bundle/assets
-unzip $BOT/assets.zip
+unzip $DEST/assets.zip
 cd $BOT
 mkdir -p bundle/info
 cd bundle/info
-unzip $BOT/info.zip
+unzip $DEST/info.zip
 cd $BOT
 mkdir -p bundle/autoconf
 cd bundle/autoconf
-unzip $BOT/autoconf.zip
+unzip $DEST/autoconf.zip
 cd $BOT
 mkdir -p bundle/database/rdb
 cd bundle/database/rdb
-unzip $BOT/database-rdb.zip
+unzip $DEST/database-rdb.zip
 cd $BOT
 mkdir -p bundle/database/cursors
 cd bundle/database/cursors
-unzip $BOT/database-cursors.zip
+unzip $DEST/database-cursors.zip
 cd $BOT
 mkdir -p bundle/overlays
 cd bundle/overlays
-unzip $BOT/overlays.zip.zip
+unzip $DEST/overlays.zip.zip
 cd $BOT
 mkdir -p bundle/shaders/shaders_glsl
 cd bundle/shaders/shaders_glsl
-unzip $BOT/shaders_glsl.zip
+unzip $DEST/shaders_glsl.zip
 cd $BOT
 mkdir -p bundle/shaders/shaders_cg
 cd bundle/shaders/shaders_cg
-unzip $BOT/shaders_cg.zip
+unzip $DEST/shaders_cg.zip
 cd $BOT
 
 cd bundle
-zip -r $BOT/bundle.zip *
+zip -r $DEST/bundle.zip *
 
 cd $BOT
-
-cp -rfv *.zip $DEST/
-rm -f *.zip
 rm -rf $TMPDIR/shaders_glsl
-
 ## end ###
 
