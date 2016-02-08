@@ -20,6 +20,7 @@ WORKDIR=$PWD
 BOT=$PWD/3ds
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 #build cores
