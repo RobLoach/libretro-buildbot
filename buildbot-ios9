@@ -20,6 +20,7 @@ WORKDIR=$PWD
 BOT=$PWD/ios9
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 #build cores
