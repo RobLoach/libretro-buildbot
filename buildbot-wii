@@ -20,6 +20,7 @@ WORKDIR=$PWD
 BOT=$PWD/wii
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 #build cores
