@@ -20,6 +20,7 @@ WORKDIR=$PWD
 BOT=$PWD/linux_x86_64
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 #build cores
