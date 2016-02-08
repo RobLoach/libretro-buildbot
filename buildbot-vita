@@ -20,6 +20,7 @@ WORKDIR=$PWD
 BOT=$PWD/vita
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 #build cores
