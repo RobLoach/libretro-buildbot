@@ -27,6 +27,7 @@ WORKDIR=$PWD
 BOT=$PWD/android
 cd $BOT
 git pull
+git clean -xdf
 
 rm -rf packages
 
