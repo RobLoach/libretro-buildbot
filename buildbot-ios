@@ -33,6 +33,7 @@ echo
 echo
 
 git pull
+git clean -xdf
 
 # ----- buildbot -----
 echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
