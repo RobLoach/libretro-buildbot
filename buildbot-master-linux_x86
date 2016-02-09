@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#!/bin/bash
+
+source $BASEDIR/scripts/buildbot.conf
+
+echo Enviroment Vars:
+echo
+echo LOGURL=$LOGURL
+echo UPLOAD=$UPLOAD
+echo BASEDIR=$BASEDIR
+
+
+if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
+   touch $BASEDIR/.tmp/buildbot.lock
+else
+   echo "buildbot already running"
+   exit
+fi
+
+# Console targets first, usually smaller
+$BASEDIR/scripts/buildbot-linux_x86
+
+rm $BASEDIR/.tmp/buildbot.lock
+rm $BASEDIR/.tmp/built*
+
