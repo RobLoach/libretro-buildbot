@@ -53,9 +53,9 @@ else
         cd $CORE_DIR
         mkdir ../latest
 
-        find ../../dist/android/armeabi/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./armeabi/ \;
-        find ../../dist/android/armeabi-v7a/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./armeabi-v7a/ \;
-        find ../../dist/android/x86/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./x86/ \;
+        find $BOT/dist/android/armeabi/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./armeabi/ \;
+        find $BOT/dist/android/armeabi-v7a/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./armeabi-v7a/ \;
+        find $BOT/dist/android/x86/ -name '*.so' -mmin -2160 -exec cp -v '{}' ./x86/ \;
 
         find . -type f -name '*.so' -exec zip -j '{}'.zip '{}' \;
         find . -type f -name '*.so' -exec rm -v '{}' \;
@@ -64,10 +64,10 @@ else
         echo BUILDBOT TASK: packaging retroarch $RELEASE
         cd $BOT
         if [ "${RELEASE}" = "YES" ]; then
-           cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/$(date +%F)-RetroArch.apk
-           cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
-           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $RELEASEDEST/$(date +%F)-RetroArch_debug.apk
-           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
+           cp -v $BOT/dist/retroarch-release.apk $RELEASEDEST/$(date +%F)-RetroArch.apk
+           cp -v $BOT/dist/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
+           cp -v $BOT/dist/retroarch-debug.apk $RELEASEDEST/$(date +%F)-RetroArch_debug.apk
+           cp -v $BOT/dist/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
 
         else
            cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
