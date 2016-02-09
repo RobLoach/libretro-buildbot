@@ -91,6 +91,8 @@ cd $BASEDIR/.cydia
 dpkg-deb -Zgzip -b RetroArch
 dpkg-deb -Zgzip -b RetroArch9
 
+mkdir -p $BASEDIR/www/repo/cydia/
+
 cp -rf RetroArch.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
 cp -rf RetroArch.deb $BASEDIR/www/repo/cydia/RetroArch.deb
 cp -rf RetroArch9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
