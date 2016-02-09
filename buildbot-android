@@ -66,6 +66,9 @@ else
         if [ "${RELEASE}" = "YES" ]; then
            cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $RELEASEDEST/$(date +%F)-RetroArch.apk
            cp -v retroarch/pkg/android/phoenix/bin/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
+           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $RELEASEDEST/$(date +%F)-RetroArch_debug.apk
+           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
+
         else
            cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
         fi
