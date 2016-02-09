@@ -76,6 +76,9 @@ rm -rfv .git
 git clone https://github.com/hizzlekizzle/glsl-shaders hunterk
 cd hunterk
 rm -rfv .git
+cd ..
+cp -rfv hunterk/* .
+rm -rfv hunterk
 cd $TMPDIR/shaders_glsl
 zip -r $DEST/shaders_glsl.zip *
 cd $BOT
