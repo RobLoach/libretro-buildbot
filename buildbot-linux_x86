@@ -17,7 +17,7 @@ WORKDIR=$PWD
 ### linux x86_64 ###
 
 # prepare build environment
-BOT=$PWD/linux_x86_64
+BOT=$PWD/linux_x86
 cd $BOT
 git pull
 git clean -xdf
