@@ -1,7 +1,7 @@
 #!/bin/sh
-export BASEDIR=/Users/buildbot
+export BASEDIR=/home/buildbot
 cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-/Users/buildbot/scripts/buildbot-linux_armhf
+$BASEDIR/scripts/buildbot-master-linux_armhf

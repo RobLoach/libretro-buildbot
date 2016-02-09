@@ -4,4 +4,4 @@ cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-/Users/buildbot/scripts/buildbot-linux_x86
+$BASEDIR/scripts/buildbot-master-linux_x86
