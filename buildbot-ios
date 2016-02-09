@@ -39,11 +39,11 @@ git clean -xdf
 echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo
 echo
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-ios
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/apple/retroarch-ios
 echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo
 echo
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/apple/cores-ios-generic
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/apple/cores-ios-generic
 
 # ----- packaging -----
 
