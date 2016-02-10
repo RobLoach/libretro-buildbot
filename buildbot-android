@@ -64,9 +64,7 @@ else
         echo BUILDBOT TASK: packaging retroarch $RELEASE
         cd $BOT
         if [ "${RELEASE}" = "YES" ]; then
-           cp -v $BOT/dist/retroarch-release.apk $RELEASEDEST/$(date +%F)-RetroArch.apk
            cp -v $BOT/dist/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
-           cp -v $BOT/dist/retroarch-debug.apk $RELEASEDEST/$(date +%F)-RetroArch_debug.apk
            cp -v $BOT/dist/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
 
         else
