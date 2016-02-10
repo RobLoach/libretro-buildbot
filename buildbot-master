@@ -125,6 +125,7 @@ rsync $BASEDIR/www/ $UPLOAD -av
 ssh $BUILDBOT_OSX -Y "rm -rfv /Users/buildbot/www/*"
 ssh $BUILDBOT_WIN -Y "rm -rfv $BASEDIR/www/*"
 ssh $BUILDBOT_LINUX_X86 -Y "rm -rfv $BASEDIR/www/*"
+ssh $BUILDBOT_LINUX_ARMHF -Y "rm -rfv $BASEDIR/www/*"
 
 # Cleanup the local cache
 rm -rfv $BASEDIR/www/*
