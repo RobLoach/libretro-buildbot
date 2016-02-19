@@ -20,7 +20,6 @@ WORKDIR=$PWD
 BOT=$PWD/psp
 cd $BOT
 git pull
-git clean -xdf
 
 rm -rf packages
 #build cores
