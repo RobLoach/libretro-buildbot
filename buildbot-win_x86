@@ -1,0 +1,95 @@
+#!/bin/bash
+
+LOGDATE=`date +%Y-%m-%d`
+BUILDBOT=vaporeon_win
+DEST=/home/buildbot/www/nightly/windows/x86
+LOGDEST=/home/buildbot/www/log/
+echo $LOGDATE $BUILDBOT
+TMPDIR=/home/buildbot/tmp/
+
+mkdir -p $DEST
+mkdir -p $LOGDEST
+
+
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+echo Buildbot Summary >> $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo ========================================== >> $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+
+
+cd buildbot
+WORKDIR=$PWD
+LOGURL="https://floating.muncher.se/bot/connect/buildbot.php"
+SIG="meqecolzjg8uzvdlj0c4wrj7yjmmvg4psbwjkst9"
+
+### windows x86 ###
+
+# prepare build environment
+BOT=$PWD/windows_x86
+cd $BOT
+git pull
+
+rm -rf packages
+#build cores
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/retroarch-windows-x86_dw2
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-generic
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-cross
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_sjlj-generic
+
+# create packages and cleanup
+if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
+    echo "Nothing to do here!"
+else
+        echo BUILDBOT TASK: packaging cores
+        CORE_DIR=$PWD/packages/$(date +%F)_cores
+        RA_DIR=$PWD/packages/$(date +%F)_retroarch
+
+        rm -rfv $CORE_DIR
+        rm -rfv $RA_DIR
+
+        mkdir -p $CORE_DIR
+        mkdir -p $RA_DIR
+        mkdir -p $DEST
+
+        cd $CORE_DIR
+        mkdir ../latest
+
+        find ../../dist/win_x86 -name '*.dll' -mmin -2160 -exec cp -v '{}' . \;
+
+        find . -type f -name '*.dll' -exec zip -j '{}'.zip '{}' \;
+        find . -type f -name '*.dll' -exec rm -v '{}' \;
+        cp -v *.zip ../latest/
+
+        cd $RA_DIR
+        cp -rv ../../retroarch/windows/*.exe .
+        7z a -mx9 $DEST/$(date +%F)_RetroArch.7z .
+
+
+        cd ..
+        rm -rfv $RA_DIR
+        mkdir -p $RA_DIR
+
+        cd $RA_DIR
+        cp -rv ../../retroarch/windows/* .
+        wget http://bot.libretro.com/nightly/windows/x86/redist-x86.7z
+        7z x redist-x86.7z
+        rm redist-x86.7z
+
+        wget http://bot.libretro.com/assets/frontend/bundle.zip
+        unzip bundle.zip
+        rm bundle.zip
+
+        7z a -mx9 $DEST/RetroArch.7z .
+
+        cd ..
+        rm -rfv $RA_DIR
+
+        cd $BOT
+        cp -rfv packages/* $DEST
+        cp -rfv $TMPDIR/log/* $LOGDEST
+
+
+
+fi
+
+## end ###
+rm $TMPDIR/built-cores $TMPDIR/built-frontend

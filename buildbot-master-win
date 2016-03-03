@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+if [ ! -f /home/buildbot/tmp/buildbot.lock ]; then
+   touch /home/buildbot/tmp/buildbot.lock
+   echo "buildbot not running"
+else
+   echo "buildbot already running"
+   exit
+fi
+
+# Console targets first, usually smaller
+/home/buildbot/buildbot-x64
+/home/buildbot/buildbot-x86
+
+rm /home/buildbot/tmp/buildbot.lock
+rm /home/buildbot/tmp/built*
+
