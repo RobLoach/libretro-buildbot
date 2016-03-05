@@ -18,6 +18,7 @@ echo BUILDBOT_LINUX_X86=$BUILDBOT_LINUX_X86
 echo BUILDBOT_LINUX_ARMHF=$BUILDBOT_LINUX_ARMHF
 echo BASEDIR=$BASEDIR
 echo RELEASE=$RELEASE
+echo VERSION=$VERSION
 echo FORCE_RETROARCH_BUILD=$FORCE_RETROARCH_BUILD
 
 buildbot_log() {
@@ -42,42 +43,41 @@ else
 fi
 
 # Console targets first, usually smaller
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-3ds
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-3ds
 rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-ngc
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-ngc
 rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-wii
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-wii
 rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-psp
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-psp
 rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-vita
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-vita
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Android
-# Override Release so we always sign with the production key
-RELEASE=YES $BASEDIR/scripts/buildbot-android
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
-RELEASE=$RELEASE $BASEDIR/scripts/update-fdroid | grep apk
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
 if [ $? -eq 0 ]; then
    buildbot_log "retroarch build published [f-droid]"
 fi
 
 # Assets
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-assets
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-assets
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Blackberry & Linux
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-blackberry
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-blackberry
 rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE $BASEDIR/scripts/buildbot-linux
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-linux
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the local cache
@@ -132,10 +132,3 @@ rm -rfv $BASEDIR/www/*
 
 rm $BASEDIR/.tmp/buildbot.lock
 rm $BASEDIR/.tmp/built*
-
-
-
-
-
-
-

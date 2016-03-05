@@ -3,16 +3,17 @@
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_linux
 LOGDEST=$BASEDIR/www/log/
-DEST=$BASEDIR/www/nightly/android/
+BUILDBOT=vaporeon_linux
+if [ "${RELEASE}" == "YES" ]; then
+   DEST=$BASEDIR/www/stable/$VERSION/android/
+else
+   DEST=$BASEDIR/www/nightly/android/
+fi
+
 echo $LOGDATE $BUILDBOT $RELEASE
 TMPDIR=$BASEDIR/.tmp/
 
-if [ "${RELEASE}" = "YES" ]; then
-   RELEASEDEST=$BASEDIR/www/.releases/
-   mkdir -p $RELEASEDEST
-else
-   RELEASEDEST=$DEST
-fi
+
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 echo Buildbot Summary | tee -a  $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
@@ -63,13 +64,13 @@ else
 
         echo BUILDBOT TASK: packaging retroarch $RELEASE
         cd $BOT
-        if [ "${RELEASE}" = "YES" ]; then
+        if [ "${RELEASE}" == "YES" ]; then
+           cp -v $BOT/dist/retroarch-release.apk $DEST/RetroArch.apk
+        else
            cp -v $BOT/dist/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
            cp -v $BOT/dist/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
-
-        else
-           cp -v retroarch/pkg/android/phoenix/bin/retroarch-debug.apk $DEST/$(date +%F)-RetroArch.apk
         fi
+
         cp -rfv packages/* $DEST
         cp -rfv $TMPDIR/log/* $LOGDEST
 
@@ -77,4 +78,3 @@ fi
 
 ## end ###
 rm $TMPDIR/built-cores $TMPDIR/built-frontend
-
