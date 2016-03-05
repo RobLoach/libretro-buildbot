@@ -8,9 +8,7 @@ git pull
 cd $BASEDIR
 
 if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
-   touch $BASEDIR/.tmp/buildbot.lock
    echo "buildbot not running"
-
 else
    echo "buildbot already running"
    exit
