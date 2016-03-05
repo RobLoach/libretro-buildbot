@@ -3,9 +3,9 @@
 source $BASEDIR/scripts/buildbot.conf
 
 if [ "${RELEASE}" = "YES" ]; then
-   FORCE_RETROARCH_BUILD=YES
+   export FORCE_RETROARCH_BUILD=YES
 else
-   FORCE_RETROARCH_BUILD=NO
+   export FORCE_RETROARCH_BUILD=NO
 fi
 
 echo Enviroment Vars:
