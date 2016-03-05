@@ -10,7 +10,7 @@ cd $BASEDIR
 screen -dmS buildbot $BASEDIR/scripts/buildbot-master
 screen -list
 
-if [ "${RELEASE}" = "YES" ]; then
+if [ "${RELEASE}" = "NO" ]; then
    awk 'NR==3 {$0="export RELEASE="NO""} { print }' /home/buildbot/scripts/buildbot-master
    cd /home/buildbot/scripts/
    git commit -a -m"[buildbot] disable release build"
