@@ -42,6 +42,10 @@ else
    exit
 fi
 
+if [ "${RELEASE}" = "YES" ]; then
+   buildbot_log "release cycle starting"
+fi
+
 # Console targets first, usually smaller
 RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-3ds
 rsync $BASEDIR/www/ $UPLOAD -av
@@ -132,3 +136,7 @@ rm -rfv $BASEDIR/www/*
 
 rm $BASEDIR/.tmp/buildbot.lock
 rm $BASEDIR/.tmp/built*
+
+if [ "${RELEASE}" = "YES" ]; then
+   buildbot_log "release cycle finished"
+fi
