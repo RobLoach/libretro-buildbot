@@ -7,14 +7,7 @@ cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
-   echo "buildbot not running"
-else
-   echo "buildbot already running"
-   exit
-fi
-
-screen -dmS buildbot $BASEDIR/scripts/buildbot-master
+screen -mS buildbot $BASEDIR/scripts/buildbot-master
 screen -list
 
 if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
@@ -24,12 +17,4 @@ if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
 else
    echo "buildbot already running"
    exit
-fi
-
-if [ "${RELEASE}" = "YES" ]; then
-   cd /home/buildbot/scripts/
-   git reset --hard
-   sed -i 's/export RELEASE="NO"/export RELEASE="NO"/' /home/buildbot/scripts/buildbot-script
-   git commit -a -m"[buildbot] disable release build"
-   git push
 fi
