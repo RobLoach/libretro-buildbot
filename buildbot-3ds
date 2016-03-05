@@ -37,8 +37,8 @@ else
     echo BUILDBOT TASK: packaging cores
     CORE_DIR=$PWD/retroarch/pkg/3ds
     mkdir -p $DEST
-    command cd $CORE_DIR
-    echo $
+    cd $CORE_DIR
+
     ls -la
 
     if [ "${RELEASE}" == "YES" ]; then

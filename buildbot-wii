@@ -2,7 +2,12 @@
 
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_linux
-DEST=$BASEDIR/www/nightly/nintendo/wii/
+if [ "${RELEASE}" == "YES" ]; then
+   DEST=$BASEDIR/www/stable/$VERSION/nintendo/wii/
+else
+   DEST=$BASEDIR/www/nightly/nintendo/wii/
+fi
+
 LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
@@ -34,7 +39,11 @@ else
 	mkdir -p $DEST
 
 	cd $CORE_DIR
-	7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+   if [ "${RELEASE}" == "YES" ]; then
+      7z a -mx9 $DEST/RetroArch.7z
+   else
+	   7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+   fi
 fi
 ## end ###
 rm $TMPDIR/built-cores $TMPDIR/built-frontend

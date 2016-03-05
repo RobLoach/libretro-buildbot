@@ -2,7 +2,12 @@
 
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_linux
-DEST=$BASEDIR/www/nightly/playstation/vita/
+if [ "${RELEASE}" == "YES" ]; then
+   DEST=$BASEDIR/www/stable/$VERSION/playstation/vita/
+else
+   DEST=$BASEDIR/www/nightly/playstation/vita/
+fi
+
 LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
@@ -32,13 +37,15 @@ else
     echo BUILDBOT TASK: packaging cores
     CORE_DIR=$PWD/retroarch/pkg/vita
     mkdir -p $DEST
-    command cd $CORE_DIR
-    echo $
+    cd $CORE_DIR
     ls -la
 
-    7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+    if [ "${RELEASE}" == "YES" ]; then
+      7z a -mx9 $DEST/RetroArch.7z
+    else
+	   7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
+    fi
 fi
 
 ## end ###
 rm $TMPDIR/built-cores $TMPDIR/built-frontend
-

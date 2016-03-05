@@ -4,10 +4,11 @@ LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_linux
 LOGDEST=$BASEDIR/www/log/
 BUILDBOT=vaporeon_linux
+DEST=$BASEDIR/www/nightly/android/
 if [ "${RELEASE}" == "YES" ]; then
-   DEST=$BASEDIR/www/stable/$VERSION/android/
+   RADEST=$BASEDIR/www/stable/$VERSION/android/
 else
-   DEST=$BASEDIR/www/nightly/android/
+   RADEST=$BASEDIR/www/nightly/android/
 fi
 
 echo $LOGDATE $BUILDBOT $RELEASE
@@ -65,10 +66,10 @@ else
         echo BUILDBOT TASK: packaging retroarch $RELEASE
         cd $BOT
         if [ "${RELEASE}" == "YES" ]; then
-           cp -v $BOT/dist/retroarch-release.apk $DEST/RetroArch.apk
+           cp -v $BOT/dist/retroarch-release.apk $RADEST/RetroArch.apk
         else
-           cp -v $BOT/dist/retroarch-release.apk $DEST/$(date +%F)-RetroArch.apk
-           cp -v $BOT/dist/retroarch-debug.apk $DEST/$(date +%F)-RetroArch_debug.apk
+           cp -v $BOT/dist/retroarch-release.apk $RADEST/$(date +%F)-RetroArch.apk
+           cp -v $BOT/dist/retroarch-debug.apk $RADEST/$(date +%F)-RetroArch_debug.apk
         fi
 
         cp -rfv packages/* $DEST
