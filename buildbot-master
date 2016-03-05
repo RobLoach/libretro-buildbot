@@ -66,9 +66,11 @@ RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
-if [ $? -eq 0 ]; then
-   buildbot_log "retroarch build published [f-droid]"
+if [ "${RELEASE}" = "NO" ]; then
+   RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
+   if [ $? -eq 0 ]; then
+      buildbot_log "retroarch build published [f-droid]"
+   fi
 fi
 
 # Assets
@@ -95,10 +97,12 @@ rsync $BUILDBOT_OSX:/Users/buildbot/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update Cydia
-$BASEDIR/scripts/update-cydia
-rsync $BASEDIR/www/ $UPLOAD -av | grep deb
-if [ $? -eq 0 ]; then
-   buildbot_log "retroarch build published [cydia]"
+if [ "${RELEASE}" = "NO" ]; then
+   $BASEDIR/scripts/update-cydia
+   rsync $BASEDIR/www/ $UPLOAD -av | grep deb
+   if [ $? -eq 0 ]; then
+      buildbot_log "retroarch build published [cydia]"
+   fi
 fi
 
 # Cleanup the local cache
