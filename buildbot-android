@@ -51,6 +51,7 @@ else
         mkdir $CORE_DIR/armeabi-v7a -p
         mkdir $CORE_DIR/x86 -p
         mkdir -p $DEST
+        mkdir -p $RADEST
 
         cd $CORE_DIR
         mkdir ../latest
