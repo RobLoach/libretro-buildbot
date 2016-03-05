@@ -7,14 +7,5 @@ cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-screen -mS buildbot $BASEDIR/scripts/buildbot-master
+screen -dmS buildbot $BASEDIR/scripts/buildbot-master
 screen -list
-
-if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then
-   touch $BASEDIR/.tmp/buildbot.lock
-   echo "buildbot not running"
-
-else
-   echo "buildbot already running"
-   exit
-fi
