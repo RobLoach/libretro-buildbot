@@ -143,4 +143,5 @@ rm $BASEDIR/.tmp/built*
 
 if [ "${RELEASE}" = "YES" ]; then
    buildbot_log "release cycle finished"
+   $BASEDIR/scripts/buildbot-restore
 fi
