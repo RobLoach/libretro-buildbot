@@ -11,9 +11,9 @@ fi
 
 
 cd $BASEDIR/.fdroid/repo
+rm *.apk
+cp -fv $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk RetroArch.apk
 
-cp -fv $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk .
-cp -fv ${ZIPDATE}-RetroArch.apk RetroArch.apk
 
 cd $BASEDIR/.fdroid/metadata
 cat com.retroarch.txt-orig > com.retroarch.txt
