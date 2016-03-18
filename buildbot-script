@@ -1,7 +1,10 @@
 #!/bin/sh
 export BASEDIR=/home/buildbot
-export RELEASE="YES"
-export VERSION="1.3.3"
+source $BASEDIR/release
+
+echo BASEDIR=$BASEDIR
+echo RELEASE=$RELEASE
+echo VERSION=$VERSION
 
 cd $BASEDIR/scripts
 git pull
