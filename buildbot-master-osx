@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#!/bin/bash
-
 source $BASEDIR/scripts/buildbot.conf
 
 if [ "${RELEASE}" = "YES" ]; then
@@ -10,7 +7,7 @@ else
    export FORCE_RETROARCH_BUILD=NO
 fi
 
-echo Enviroment Vars:
+echo Enviroment Vars for OSX:
 echo
 echo LOGURL=$LOGURL
 echo UPLOAD=$UPLOAD
