@@ -1,5 +1,8 @@
 #!/bin/sh
 export BASEDIR=/Users/buildbot
+export RELEASE=$RELEASE
+export VERSION=$VERSION
+
 cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
