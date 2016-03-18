@@ -5,10 +5,11 @@
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
-   DEST=$BASEDIR/www/stable/$VERSION/apple/ios9/
+   RADEST=$BASEDIR/www/stable/$VERSION/android/
 else
-   DEST=$BASEDIR/www/nightly/apple/ios9/
+   RADEST=$BASEDIR/www/nightly/apple/ios/   
 fi
+DEST=$BASEDIR/www/nightly/apple/ios/
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
@@ -112,8 +113,8 @@ else
    cd $RA_DIR
 
    rm -rf tmp
-   rm -rf $DEST/$(date +%F)_RetroArch9.zip
-   zip -r $DEST/$(date +%F)_RetroArch9.zip .
+   rm -rf $RADEST/$(date +%F)_RetroArch9.zip
+   zip -r $RADEST/$(date +%F)_RetroArch9.zip .
    rm -rf RetroArch.app
 
    cd $BOT
