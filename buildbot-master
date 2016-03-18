@@ -46,49 +46,6 @@ if [ "${RELEASE}" = "YES" ]; then
    buildbot_log "release cycle starting"
 fi
 
-# Console targets first, usually smaller
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-3ds
-rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-ngc
-rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-wii
-rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-psp
-rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-vita
-rsync $BASEDIR/www/ $UPLOAD -av
-
-# Cleanup the local cache
-find $BASEDIR/www -type f -exec rm -rv {} \;
-
-# Android
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-android
-rsync $BASEDIR/www/ $UPLOAD -av
-
-# Update F-Droid
-if [ "${RELEASE}" = "NO" ]; then
-   RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
-   if [ $? -eq 0 ]; then
-      buildbot_log "retroarch build published [f-droid]"
-   fi
-fi
-
-# Assets
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-assets
-rsync $BASEDIR/www/ $UPLOAD -av
-
-# Cleanup the local cache
-find $BASEDIR/www -type f -exec rm -rv {} \;
-
-# Blackberry & Linux
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-blackberry
-rsync $BASEDIR/www/ $UPLOAD -av
-RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-linux
-rsync $BASEDIR/www/ $UPLOAD -av
-
-# Cleanup the local cache
-find $BASEDIR/www -type f -exec rm -rv {} \;
-
 # iOS, OSX
 ssh $BUILDBOT_OSX -Y '/Users/buildbot/scripts/buildbot-script-osx $RELEASE $VERSION'
 
