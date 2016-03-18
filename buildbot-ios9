@@ -4,10 +4,10 @@
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
-   RADEST=$BASEDIR/www/stable/$VERSION/android/
+   RADEST=$BASEDIR/www/stable/$VERSION/apple/ios9/
    FNAME=RetroArch.zip
 else
-   RADEST=$BASEDIR/www/nightly/apple/ios/
+   RADEST=$BASEDIR/www/nightly/apple/ios9/
    FNAME=$(date +%F)_RetroArch9.zip
 fi
 DEST=$BASEDIR/www/nightly/apple/ios/
