@@ -1,10 +1,10 @@
 #!/bin/sh
-echo RELEASE: $RELEASE
-echo VERSION: $VERSION
-
 export BASEDIR=/Users/buildbot
-export RELEASE=$RELEASE
-export VERSION=$VERSION
+source $BASEDIR/release
+
+echo BASEDIR=$BASEDIR
+echo RELEASE=$RELEASE
+echo VERSION=$VERSION
 
 cd $BASEDIR/scripts
 git pull
