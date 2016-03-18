@@ -7,7 +7,7 @@ BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
    DEST=$BASEDIR/www/stable/$VERSION/apple/ios/
 else
-   DEST=$BASEDIR/www/nightly/apple/ios
+   DEST=$BASEDIR/www/nightly/apple/ios/
 fi
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
