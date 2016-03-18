@@ -3,6 +3,10 @@ export BASEDIR=/Users/buildbot
 export RELEASE=$1
 export VERSION=$2
 
+echo BASEDIR: $BASEDIR
+echo RELEASE: $RELEASE
+echo VERSION: $VERSION
+
 cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
