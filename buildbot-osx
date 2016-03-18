@@ -5,11 +5,13 @@
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
-   DEST=$BASEDIR/www/stable/$VERSION/apple/osx/x86_64/
+   RADEST=$BASEDIR/www/stable/$VERSION/apple/osx/x86_64/
+   FNAME=RetroArch
 else
-   DEST=$BASEDIR/www/nightly/apple/osx/x86_64/
+   RADEST=$BASEDIR/www/nightly/apple/osx/x86_64/
+   FNAME=$(date +%F)_RetroArch
 fi
-
+DEST=$BASEDIR/www/nightly/apple/osx/x86_64/
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
@@ -21,6 +23,7 @@ rm -rfv packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
+mkdir -p $RADEST
 
 echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
@@ -30,6 +33,7 @@ echo WORKDIR $WORKDIR
 echo BOTDIR  $BOT
 echo TMPDIR  $TMPDIR
 echo DEST    $DEST
+echo RADEST  $RADEST
 echo
 echo
 
@@ -113,7 +117,7 @@ else
    cd $RA_DIR
        
    #zip -r $DEST/$(date +%F)_RetroArch.zip .
-   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $DEST/$(date +%F)_RetroArch.dmg
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/$FNAME.dmg
    rm -rfv RetroArch.app
 
    cd $RACG_DIR
@@ -127,7 +131,7 @@ else
 
    cd $RACG_DIR
    #zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
-   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $DEST/$(date +%F)_RetroArchCG.dmg
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/$FNAME_CG.dmg
    rm -rfv RetroArch.app
 
    cd $BOT
