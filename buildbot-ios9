@@ -5,7 +5,7 @@ LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
    RADEST=$BASEDIR/www/stable/$VERSION/apple/ios9/
-   FNAME=RetroArch.zip
+   FNAME=RetroArch9.zip
 else
    RADEST=$BASEDIR/www/nightly/apple/ios9/
    FNAME=$(date +%F)_RetroArch9.zip
@@ -31,6 +31,7 @@ echo WORKDIR $WORKDIR
 echo BOTDIR  $BOT
 echo TMPDIR  $TMPDIR
 echo DEST    $DEST
+echo RADEST  $RADEST
 echo
 echo
 
