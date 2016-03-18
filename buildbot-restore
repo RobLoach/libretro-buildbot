@@ -2,7 +2,7 @@
 
 cd /home/buildbot/scripts/
 git reset --hard
-sed -i 's/export RELEASE="YES"/export RELEASE="NO"/' /home/buildbot/scripts/release
+sed -i 's/export RELEASE="YES"/export RELEASE="NO"/' /home/buildbot/scripts/release.conf
 git commit -a -m"[buildbot] disable release build"
 git push
 
