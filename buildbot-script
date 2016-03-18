@@ -1,6 +1,6 @@
 #!/bin/sh
 export BASEDIR=/home/buildbot
-source $BASEDIR/release
+source $BASEDIR/scripts/release
 
 echo BASEDIR=$BASEDIR
 echo RELEASE=$RELEASE
