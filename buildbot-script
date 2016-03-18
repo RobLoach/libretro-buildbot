@@ -10,5 +10,5 @@ cd $BASEDIR/scripts
 git pull
 cd $BASEDIR
 
-$BASEDIR/scripts/buildbot-master
+screen -dmS buildbot $BASEDIR/scripts/buildbot-master
 screen -list
