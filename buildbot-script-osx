@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 export BASEDIR=/Users/buildbot
 source $BASEDIR/scripts/release
 
