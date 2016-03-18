@@ -9,7 +9,7 @@ if [ "${RELEASE}" == "YES" ]; then
    FNAME=RetroArch.zip
 else
    RADEST=$BASEDIR/www/nightly/apple/ios/
-   FNAME=$(date +%F)_RetroArch9.zip
+   FNAME=$(date +%F)_RetroArch.zip
 fi
 
 LOGDEST=$BASEDIR/www/log
@@ -23,6 +23,7 @@ rm -rfv packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
+mkdir -p $RADEST
 
 echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
@@ -32,6 +33,7 @@ echo WORKDIR $WORKDIR
 echo BOTDIR  $BOT
 echo TMPDIR  $TMPDIR
 echo DEST    $DEST
+echo RADEST  $RADEST
 echo
 echo
 
