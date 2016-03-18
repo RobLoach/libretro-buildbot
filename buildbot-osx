@@ -4,7 +4,12 @@
 
 LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
-DEST=$BASEDIR/www/nightly/apple/osx/x86_64
+if [ "${RELEASE}" == "YES" ]; then
+   DEST=$BASEDIR/www/stable/$VERSION/apple/osx/x86_64/
+else
+   DEST=$BASEDIR/www/nightly/apple/osx/x86_64/
+fi
+
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
