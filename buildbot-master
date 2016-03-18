@@ -90,7 +90,7 @@ rsync $BASEDIR/www/ $UPLOAD -av
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # iOS, OSX
-ssh $BUILDBOT_OSX -Y /Users/buildbot/scripts/buildbot-script-osx
+ssh $BUILDBOT_OSX -Y 'RELEASE=$RELEASE VERSION=$VERSION; /Users/buildbot/scripts/buildbot-script-osx'
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_OSX:/Users/buildbot/www/* $BASEDIR/www/ -av
@@ -109,14 +109,14 @@ fi
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Windows
-ssh $BUILDBOT_WIN -Y $BASEDIR/buildbot-master
+ssh $BUILDBOT_WIN -Y 'RELEASE=$RELEASE VERSION=$VERSION; $BASEDIR/buildbot-master'
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_WIN:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux x86
-ssh $BUILDBOT_LINUX_X86 -Y $BASEDIR/scripts/buildbot-script-linux_x86
+ssh $BUILDBOT_LINUX_X86 -Y 'RELEASE=$RELEASE VERSION=$VERSION; $BASEDIR/scripts/buildbot-script-linux_x86'
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
