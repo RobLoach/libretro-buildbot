@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export RELEASE="YES"
+export VERSION="1.3.3
