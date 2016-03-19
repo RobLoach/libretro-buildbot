@@ -2,18 +2,30 @@
 
 ZIPDATE=`date +%Y-%m-%d`
 
-if [ ! -f $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk ]; then
-   echo nothing to do here
-   exit
+if [ "${RELEASE}" == "YES" ]; then
+    RADEST=$BASEDIR/www/stable/$VERSION/android/
+    if [ ! -$RADEST/RetroArch.apk ]; then
+        echo nothing to do here
+        exit
+    else
+        echo "packaging"
+    fi
 else
-   echo "packaging"
+    RADEST=$BASEDIR/www/nightly/android/
+    if [ ! -f $RADEST/${ZIPDATE}-RetroArch.apk ]; then
+        echo nothing to do here
+        exit
+    else
+        echo "packaging"
+    fi
 fi
 
-
 cd $BASEDIR/.fdroid/repo
-rm *.apk
-cp -fv $BASEDIR/www/nightly/android/${ZIPDATE}-RetroArch.apk RetroArch.apk
-
+if [ "${RELEASE}" == "YES" ]; then
+   cp -fv $RADEST/RetroArch.apk RetroArch_Release.apk
+else
+   cp -fv $RADEST/${ZIPDATE}-RetroArch.apk RetroArch_Nightly.apk
+fi
 
 cd $BASEDIR/.fdroid/metadata
 cat com.retroarch.txt-orig > com.retroarch.txt

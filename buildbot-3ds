@@ -39,8 +39,6 @@ else
     mkdir -p $DEST
     cd $CORE_DIR
 
-    ls -la
-
     if [ "${RELEASE}" == "YES" ]; then
       7z a -mx9 $DEST/RetroArch_3dsx.7z 3ds retroarch
       7z a -mx9 $DEST/RetroArch_cia.7z cia retroarch
