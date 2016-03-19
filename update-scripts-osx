@@ -1,0 +1,6 @@
+#!/bin/bash
+export BASEDIR=/Users/buildbot
+
+cd $BASEDIR/scripts
+git pull
+cd $BASEDIR
