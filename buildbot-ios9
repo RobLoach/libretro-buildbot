@@ -5,7 +5,7 @@ LOGDATE=`date +%Y-%m-%d`
 BUILDBOT=vaporeon_osx
 if [ "${RELEASE}" == "YES" ]; then
    RADEST=$BASEDIR/www/stable/$VERSION/apple/ios9/
-   FNAME=RetroArch9.zip
+   FNAME=RetroArch_iOS9.zip
 else
    RADEST=$BASEDIR/www/nightly/apple/ios9/
    FNAME=$(date +%F)_RetroArch9.zip
@@ -22,6 +22,7 @@ rm -rfv packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
+mkdir -p $RADEST
 
 echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log

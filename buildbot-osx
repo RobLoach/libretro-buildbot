@@ -117,7 +117,7 @@ else
    cd $RA_DIR
        
    #zip -r $DEST/$(date +%F)_RetroArch.zip .
-   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/$FNAME.dmg
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/${FNAME}.dmg
    rm -rfv RetroArch.app
 
    cd $RACG_DIR
@@ -131,7 +131,7 @@ else
 
    cd $RACG_DIR
    #zip -r $DEST/$(date +%F)_RetroArch_CG.zip .
-   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/$FNAME_CG.dmg
+   hdiutil create -volname RetroArch -srcfolder ./ -ov -format UDZO $RADEST/${FNAME}_CG.dmg
    rm -rfv RetroArch.app
 
    cd $BOT

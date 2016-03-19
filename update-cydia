@@ -1,7 +1,13 @@
 #/bin/sh
 
-PKGDATE=`date +%Y.%m.%d.%H.%M.%S`
+PKGDATE=`date +%s`
 ZIPDATE=`date +%Y-%m-%d`
+
+if [ "${RELEASE}" == "YES" ]; then
+   FNAME=RetroArch
+else
+   FNAME=RetroArch_Nightly
+fi
 
 mkdir -p $BASEDIR/www/repo/cydia/
 
@@ -18,15 +24,15 @@ fi
 mkdir $BASEDIR/.cydia
 cd $BASEDIR/.cydia
 
-rm -rfv RetroArch
-rm -rfv RetroArch.deb
+rm -rfv ${FNAME}
+rm -rfv ${FNAME}.deb
 rm *.zip
 
-mkdir RetroArch
-mkdir -p RetroArch/Applications
-mkdir -p RetroArch/DEBIAN
+mkdir ${FNAME}
+mkdir -p ${FNAME}/Applications
+mkdir -p ${FNAME}/DEBIAN
 
-cd RetroArch/Applications
+cd ${FNAME}/Applications
 cp $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip .
 unzip ${ZIPDATE}_RetroArch.zip
 rm ${ZIPDATE}_RetroArch.zip
@@ -36,7 +42,7 @@ cd DEBIAN
 cat << EOF > control
 Package: com.libretro.RetroArch
 Name: RetroArch
-Version: 1.3.0.${PKGDATE}
+Version: ${VERSION}.${PKGDATE}
 Architecture: iphoneos-arm
 Description: RetroArch Nightlies
 Homepage: http://www.libretro.com
@@ -54,26 +60,26 @@ EOF
 mkdir $BASEDIR/.cydia
 cd $BASEDIR/.cydia
 
-rm -rfv RetroArch9
-rm -rfv RetroArch9.deb
+rm -rfv ${FNAME}_iOS9
+rm -rfv ${FNAME}_iOS9.deb
 rm *.zip
 
-mkdir RetroArch9
-mkdir -p RetroArch9/Applications
-mkdir -p RetroArch9/DEBIAN
+mkdir ${FNAME}_iOS9
+mkdir -p ${FNAME}_iOS9/Applications
+mkdir -p ${FNAME}_iOS9/DEBIAN
 
-cd RetroArch9/Applications
-cp $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch9.zip .
-unzip ${ZIPDATE}_RetroArch9.zip
-rm ${ZIPDATE}_RetroArch9.zip
+cd ${FNAME}_iOS9/Applications
+cp $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.zip .
+unzip ${ZIPDATE}_RetroArch_iOS9.zip
+rm ${ZIPDATE}_RetroArch_iOS9.zip
 mv *.app RetroArch.app
 cd ..
 cd DEBIAN
 
 cat << EOF > control
-Package: com.libretro.RetroArch9
+Package: com.libretro.${FNAME}_iOS9
 Name: RetroArch (iOS 9)
-Version: 1.3.0.${PKGDATE}
+Version: ${VERSION}.${PKGDATE}
 Architecture: iphoneos-arm
 Description: RetroArch Nightlies for iOS9
 Homepage: http://www.libretro.com
@@ -90,13 +96,13 @@ EOF
 cd
 cd $BASEDIR/.cydia
 
-dpkg-deb -Zgzip -b RetroArch
-dpkg-deb -Zgzip -b RetroArch9
+dpkg-deb -Zgzip -b ${FNAME}
+dpkg-deb -Zgzip -b ${FNAME}_iOS9
 
-cp -rfv RetroArch.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
-cp -rfv RetroArch.deb $BASEDIR/www/repo/cydia/RetroArch.deb
-cp -rfv RetroArch9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
-cp -rfv RetroArch9.deb $BASEDIR/www/repo/cydia/RetroArch9.deb
+cp -rfv ${FNAME}.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
+cp -rfv ${FNAME}.deb $BASEDIR/www/repo/cydia/RetroArch.deb
+cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
+cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/repo/cydia/${FNAME}_iOS9.deb
 
 cd $BASEDIR/www/repo/cydia/
 rm Packages.bz2
