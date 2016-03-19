@@ -100,7 +100,7 @@ dpkg-deb -Zgzip -b ${FNAME}
 dpkg-deb -Zgzip -b ${FNAME}_iOS9
 
 cp -rfv ${FNAME}.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
-cp -rfv ${FNAME}.deb $BASEDIR/www/repo/cydia/RetroArch.deb
+cp -rfv ${FNAME}.deb $BASEDIR/www/repo/cydia/${FNAME}.deb
 cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
 cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/repo/cydia/${FNAME}_iOS9.deb
 
