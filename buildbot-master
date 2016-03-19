@@ -69,12 +69,11 @@ RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-android
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update F-Droid
-if [ "${RELEASE}" = "NO" ]; then
-   RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
-   if [ $? -eq 0 ]; then
-      buildbot_log "retroarch build published [f-droid]"
-   fi
+RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/update-fdroid | grep apk
+if [ $? -eq 0 ]; then
+   buildbot_log "retroarch build published [f-droid]"
 fi
+
 
 # Assets
 RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-assets
