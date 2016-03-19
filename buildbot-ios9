@@ -8,7 +8,7 @@ if [ "${RELEASE}" == "YES" ]; then
    FNAME=RetroArch_iOS9.zip
 else
    RADEST=$BASEDIR/www/nightly/apple/ios9/
-   FNAME=$(date +%F)_RetroArch9.zip
+   FNAME=$(date +%F)_RetroArch_iOS9.zip
 fi
 DEST=$BASEDIR/www/nightly/apple/ios/
 LOGDEST=$BASEDIR/www/log
