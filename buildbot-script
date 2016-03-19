@@ -1,14 +1,14 @@
 #!/bin/bash
 export BASEDIR=/home/buildbot/
+cd $BASEDIR/scripts
+git pull
+cd $BASEDIR
+
 source $BASEDIR/scripts/release.conf
 
 echo BASEDIR=$BASEDIR
 echo RELEASE=$RELEASE
 echo VERSION=$VERSION
-
-cd $BASEDIR/scripts
-git pull
-cd $BASEDIR
 
 screen -dmS buildbot $BASEDIR/scripts/buildbot-master
 screen -list

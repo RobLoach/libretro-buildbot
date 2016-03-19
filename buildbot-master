@@ -46,6 +46,9 @@ if [ "${RELEASE}" = "YES" ]; then
    buildbot_log "release cycle starting"
 fi
 
+# First and foremost, update remote scripts
+ssh $BUILDBOT_OSX -Y /Users/buildbot/scripts/update-scripts-osx
+
 # Console targets first, usually smaller
 RELEASE=$RELEASE VERSION=$VERSION $BASEDIR/scripts/buildbot-3ds
 rsync $BASEDIR/www/ $UPLOAD -av

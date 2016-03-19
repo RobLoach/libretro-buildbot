@@ -6,8 +6,4 @@ echo BASEDIR=$BASEDIR
 echo RELEASE=$RELEASE
 echo VERSION=$VERSION
 
-cd $BASEDIR/scripts
-git pull
-cd $BASEDIR
-
 $BASEDIR/scripts/buildbot-master-osx
