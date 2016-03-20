@@ -5,7 +5,7 @@ ZIPDATE=`date +%Y-%m-%d`
 if [ "${RELEASE}" == "YES" ]; then
     RADEST=${BASEDIR}/www/stable/$VERSION/apple/
     INAME=RetroArch
-    FNAME=RetroArch_${VERSION}
+    FNAME=RetroArch
     if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
        echo nothing to do here
        exit
@@ -65,12 +65,11 @@ cd ${FNAME}_iOS9/Applications
 cp ${RADEST}/ios9/${INAME}.zip .
 unzip ${INAME}.zip
 rm ${INAME}.zip
-mv *.app RetroArch.app
-cd ${BASEDIR}/.cydia/${FNAME}
+cd ${BASEDIR}/.cydia/${FNAME}_iOS9
 cd DEBIAN
 
 cat << EOF > control
-Package: com.libretro.${FNAME}_iOS9
+Package: com.libretro.RetroArch9
 Name: RetroArch (iOS 9)
 Version: ${VERSION}.${PKGDATE}
 Architecture: iphoneos-arm
