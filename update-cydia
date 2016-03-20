@@ -7,7 +7,7 @@ if [ "${RELEASE}" == "YES" ]; then
     INAME=RetroArch
     FNAME=RetroArch
     NAME=RetroArch
-    VER=${VERSION}.${PKGDATE}
+    VER=${VERSION}
     if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
        echo nothing to do here
        exit
@@ -19,7 +19,7 @@ else
     INAME=${ZIPDATE}_RetroArch
     FNAME=RetroArch_GIT
     NAME="RetroArch GIT"
-    VER=${VERSION}
+    VER=${VERSION}.${PKGDATE}
     if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
        echo nothing to do here
        exit
