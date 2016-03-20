@@ -99,13 +99,12 @@ rsync $BUILDBOT_OSX:/Users/buildbot/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Update Cydia
-if [ "${RELEASE}" = "NO" ]; then
-   $BASEDIR/scripts/update-cydia
-   rsync $BASEDIR/www/ $UPLOAD -av | grep deb
-   if [ $? -eq 0 ]; then
-      buildbot_log "retroarch build published [cydia]"
-   fi
+$BASEDIR/scripts/update-cydia
+rsync $BASEDIR/www/ $UPLOAD -av | grep deb
+if [ $? -eq 0 ]; then
+   buildbot_log "retroarch build published [cydia]"
 fi
+
 
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
