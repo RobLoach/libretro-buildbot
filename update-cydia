@@ -6,6 +6,8 @@ if [ "${RELEASE}" == "YES" ]; then
     RADEST=${BASEDIR}/www/stable/$VERSION/apple/
     INAME=RetroArch
     FNAME=RetroArch
+    NAME=RetroArch
+    VER=${VERSION}.${PKGDATE}
     if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
        echo nothing to do here
        exit
@@ -16,6 +18,8 @@ else
     RADEST=${BASEDIR}/www/nightly/apple/
     INAME=${ZIPDATE}_RetroArch
     FNAME=RetroArch_GIT
+    NAME="RetroArch GIT"
+    VER=${VERSION}
     if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
        echo nothing to do here
        exit
@@ -41,10 +45,10 @@ cd DEBIAN
 
 cat << EOF > control
 Package: com.libretro.RetroArch
-Name: RetroArch
-Version: ${VERSION}.${PKGDATE}
+Name: $NAME
+Version: ${VER}
 Architecture: iphoneos-arm
-Description: RetroArch Nightlies
+Description: RetroArch is the official reference frontend for the libretro API
 Homepage: http://www.libretro.com
 Depiction: http://buildbot.libretro.com/repo/cydia/retroarch.png
 Maintainer: Radius
@@ -70,10 +74,10 @@ cd DEBIAN
 
 cat << EOF > control
 Package: com.libretro.RetroArch9
-Name: RetroArch (iOS 9)
-Version: ${VERSION}.${PKGDATE}
+Name: $NAME iOS9
+Version: ${VER}
 Architecture: iphoneos-arm
-Description: RetroArch Nightlies for iOS9
+Description: RetroArch is the official reference frontend for the libretro API
 Homepage: http://www.libretro.com
 Depiction: http://buildbot.libretro.com/repo/cydia/retroarch.png
 Maintainer: Radius
