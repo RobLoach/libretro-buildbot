@@ -1,42 +1,42 @@
 #/bin/sh
-
 PKGDATE=`date +%s`
 ZIPDATE=`date +%Y-%m-%d`
 
 if [ "${RELEASE}" == "YES" ]; then
-   FNAME=RetroArch
+    RADEST=${BASEDIR}/www/stable/$VERSION/apple/
+    INAME=RetroArch
+    FNAME=RetroArch_${VERSION}
+    if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
+       echo nothing to do here
+       exit
+    else
+       echo "packaging"
+    fi
 else
-   FNAME=RetroArch_Nightly
+    RADEST=${BASEDIR}/www/nightly/apple/
+    INAME=${ZIPDATE}_RetroArch
+    FNAME=RetroArch_GIT
+    if [ ! -f ${RADEST}/ios/${INAME}.zip -o ! -f ${RADEST}/ios9/${INAME}.zip ]; then
+       echo nothing to do here
+       exit
+    else
+       echo "packaging"
+    fi
 fi
 
-mkdir -p $BASEDIR/www/repo/cydia/
-
-ls $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip  -la
-
-
-if [ ! -f $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip -o ! -f $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch9.zip ]; then
-   echo nothing to do here
-   exit
-else
-   echo "packaging"
-fi
-
-mkdir $BASEDIR/.cydia
-cd $BASEDIR/.cydia
-
-rm -rfv ${FNAME}
-rm -rfv ${FNAME}.deb
-rm *.zip
+mkdir -p ${BASEDIR}/www/repo/cydia/
+mkdir ${BASEDIR}/.cydia
+cd ${BASEDIR}/.cydia
 
 mkdir ${FNAME}
 mkdir -p ${FNAME}/Applications
 mkdir -p ${FNAME}/DEBIAN
 
 cd ${FNAME}/Applications
-cp $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.zip .
-unzip ${ZIPDATE}_RetroArch.zip
-rm ${ZIPDATE}_RetroArch.zip
-cd ..
+cp ${RADEST}/ios/${INAME}.zip .
+unzip ${INAME}.zip
+rm ${INAME}.zip
+cd ${BASEDIR}/.cydia/${FNAME}
 cd DEBIAN
 
 cat << EOF > control
@@ -53,27 +53,20 @@ Sponsor:
 Section: Games
 Icon: http://buildbot.libretro.com/repo/cydia/retroarch-icon.png
 
-
 EOF
 
-
-mkdir $BASEDIR/.cydia
-cd $BASEDIR/.cydia
-
-rm -rfv ${FNAME}_iOS9
-rm -rfv ${FNAME}_iOS9.deb
-rm *.zip
+cd ${BASEDIR}/.cydia
 
 mkdir ${FNAME}_iOS9
 mkdir -p ${FNAME}_iOS9/Applications
 mkdir -p ${FNAME}_iOS9/DEBIAN
 
 cd ${FNAME}_iOS9/Applications
-cp $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.zip .
-unzip ${ZIPDATE}_RetroArch_iOS9.zip
-rm ${ZIPDATE}_RetroArch_iOS9.zip
+cp ${RADEST}/ios9/${INAME}.zip .
+unzip ${INAME}.zip
+rm ${INAME}.zip
 mv *.app RetroArch.app
-cd ..
+cd ${BASEDIR}/.cydia/${FNAME}
 cd DEBIAN
 
 cat << EOF > control
@@ -90,23 +83,21 @@ Sponsor:
 Section: Games
 Icon: http://buildbot.libretro.com/repo/cydia/retroarch-icon.png
 
-
 EOF
 
-cd
-cd $BASEDIR/.cydia
+cd ${BASEDIR}/.cydia
 
 dpkg-deb -Zgzip -b ${FNAME}
 dpkg-deb -Zgzip -b ${FNAME}_iOS9
 
-cp -rfv ${FNAME}.deb $BASEDIR/www/nightly/apple/ios/${ZIPDATE}_RetroArch.deb
-cp -rfv ${FNAME}.deb $BASEDIR/www/repo/cydia/${FNAME}.deb
-cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/nightly/apple/ios9/${ZIPDATE}_RetroArch_iOS9.deb
-cp -rfv ${FNAME}_iOS9.deb $BASEDIR/www/repo/cydia/${FNAME}_iOS9.deb
+cp -rfv ${FNAME}.deb ${RADEST}/ios/${INAME}.deb
+cp -rfv ${FNAME}.deb ${BASEDIR}/www/repo/cydia/${FNAME}.deb
+cp -rfv ${FNAME}_iOS9.deb ${RADEST}/ios9/${INAME}.deb
+cp -rfv ${FNAME}_iOS9.deb ${BASEDIR}/www/repo/cydia/${FNAME}_iOS9.deb
 
-cd $BASEDIR/www/repo/cydia/
+cd ${BASEDIR}/www/repo/cydia/
 rm Packages.bz2
-$BASEDIR/tools/cydia/dpkg-scanpackages -m . /dev/null >Packages
+${BASEDIR}/tools/cydia/dpkg-scanpackages -m . /dev/null >Packages
 bzip2 Packages
 
 cat << EOF > Release
