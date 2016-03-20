@@ -24,7 +24,7 @@ cd $BASEDIR/.fdroid/repo
 if [ "${RELEASE}" == "YES" ]; then
    cp -fv $RADEST/RetroArch.apk RetroArch_${VERSION}.apk
 else
-   cp -fv $RADEST/${ZIPDATE}-RetroArch.apk RetroArch_Nightly.apk
+   cp -fv $RADEST/${ZIPDATE}-RetroArch.apk RetroArch_GIT.apk
 fi
 
 cd $BASEDIR/.fdroid/metadata
