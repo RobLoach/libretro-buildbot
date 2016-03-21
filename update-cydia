@@ -32,6 +32,7 @@ mkdir -p ${BASEDIR}/www/repo/cydia/
 mkdir ${BASEDIR}/.cydia
 cd ${BASEDIR}/.cydia
 
+rm -rfv ${FNAME}
 mkdir ${FNAME}
 mkdir -p ${FNAME}/Applications
 mkdir -p ${FNAME}/DEBIAN
@@ -61,6 +62,7 @@ EOF
 
 cd ${BASEDIR}/.cydia
 
+rm -rfv ${FNAME}_iOS9
 mkdir ${FNAME}_iOS9
 mkdir -p ${FNAME}_iOS9/Applications
 mkdir -p ${FNAME}_iOS9/DEBIAN
