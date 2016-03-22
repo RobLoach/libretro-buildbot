@@ -35,7 +35,6 @@ rm -rf packages
 
 #build cores
 RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android
-RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android-dev
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-jni
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-cross
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk
