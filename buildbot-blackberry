@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=vaporeon_osx
+BUILDBOT=osx-bot
 DEST=$BASEDIR/www/nightly/blackberry/
 LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT

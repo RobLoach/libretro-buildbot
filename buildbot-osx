@@ -3,7 +3,7 @@
 # ----- setup -----
 
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=vaporeon_osx
+BUILDBOT=osx-bot
 if [ "${RELEASE}" == "YES" ]; then
    RADEST=$BASEDIR/www/stable/$VERSION/apple/osx/x86_64/
    FNAME=RetroArch

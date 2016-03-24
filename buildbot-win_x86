@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=vaporeon_win
+BUILDBOT=win-bot
 DEST=/home/buildbot/www/nightly/windows/x86
 LOGDEST=/home/buildbot/www/log/
 echo $LOGDATE $BUILDBOT

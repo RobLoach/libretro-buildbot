@@ -1,9 +1,9 @@
 #!/bin/bash
 
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=vaporeon_linux
+BUILDBOT=linux-bot
 LOGDEST=$BASEDIR/www/log/
-BUILDBOT=vaporeon_linux
+BUILDBOT=linux-bot
 DEST=$BASEDIR/www/nightly/android/
 if [ "${RELEASE}" == "YES" ]; then
    RADEST=$BASEDIR/www/stable/$VERSION/android/
