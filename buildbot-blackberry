@@ -25,7 +25,7 @@ echo $PATH
 
 rm -rf packages
 #build cores
-JOBS=6 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT ./libretro-buildbot-recipe.sh recipes/blackberry/cores-qnx-generic
+JOBS=2 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT ./libretro-buildbot-recipe.sh recipes/blackberry/cores-qnx-generic
 
 # create packages and cleanup
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then

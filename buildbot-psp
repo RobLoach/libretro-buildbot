@@ -28,7 +28,7 @@ git pull
 
 rm -rf packages
 #build cores
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=6 ./libretro-buildbot-recipe.sh recipes/playstation/psp
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/playstation/psp
 
 # create packages and cleanup
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
