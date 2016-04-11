@@ -7,3 +7,25 @@ for dir in $(find "$basedir" -mindepth 1 -maxdepth 100 -type d); do
    find . -maxdepth 1 -type f | cut --fields=2 --delimiter="/" | grep --invert-match .index | sort > .index
    cd $curr
 done
+
+curr=$PWD
+basedir=$1
+for dir in $(find "$basedir" -mindepth 1 -maxdepth 100 -type d); do
+   cd $dir
+   rm .index-temp
+   rm .index-dirs
+   rm .index-extended
+
+   find . -maxdepth 1 -name "*.zip" -type f -exec bash -c "unzip -v {} | grep -v zip | grep libretro | tr -s ' ' | xargs | cut --fields=5,7,8 --delimiter=' '" \; > .index-temp
+   find . -maxdepth 1 -type d | cut --fields=2 --delimiter="/" | grep --invert-match "\." > .index-dirs
+   while read line
+   do
+       echo "${line}.zip" >> .index-extended
+   done <  .index-temp
+   rm .index-temp
+   cd $curr
+done
+
+cd $curr
+
+find ./ -type f -name .index-dirs -size 0 -delete
