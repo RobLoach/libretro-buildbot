@@ -118,6 +118,10 @@ unzip $DEST/shaders_cg.zip
 cd $BOT
 
 cd bundle
+mkdir playlists
+touch playlists/empty
+mkdir cheats
+touch cheats/empty
 zip -r $DEST/bundle.zip *
 
 cd $BOT
