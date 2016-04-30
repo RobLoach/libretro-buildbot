@@ -21,16 +21,16 @@ WORKDIR=$PWD
 BOT=$PWD/assets
 cd $BOT
 
-git clone https://github.com/libretro/retroarch-joypad-autoconfig.git autoconf
+git clone https://github.com/libretro/retroarch-joypad-autoconfig.git autoconfig
 git clone https://github.com/libretro/libretro-super.git super
 git clone https://github.com/libretro/common-shaders shaders_cg
 git clone https://github.com/libretro/retroarch-assets assets
 git clone https://github.com/libretro/common-overlays.git overlays
 git clone https://github.com/libretro/libretro-database.git database
 
-cd autoconf
+cd autoconfig
 git pull
-git archive --format zip --output $DEST/autoconf.zip master
+git archive --format zip --output $DEST/autoconfig.zip master
 cd $BOT
 
 cd super
@@ -92,9 +92,9 @@ mkdir -p bundle/info
 cd bundle/info
 unzip $DEST/info.zip
 cd $BOT
-mkdir -p bundle/autoconf
-cd bundle/autoconf
-unzip $DEST/autoconf.zip
+mkdir -p bundle/autoconfig
+cd bundle/autoconfig
+unzip $DEST/autoconfig.zip
 cd $BOT
 mkdir -p bundle/database/rdb
 cd bundle/database/rdb
