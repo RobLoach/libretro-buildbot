@@ -10,7 +10,7 @@ else
    RADEST=$BASEDIR/www/nightly/apple/ios9/
    FNAME=$(date +%F)_RetroArch.zip
 fi
-DEST=$BASEDIR/www/nightly/apple/ios/
+DEST=$BASEDIR/www/nightly/apple/ios9/
 LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
