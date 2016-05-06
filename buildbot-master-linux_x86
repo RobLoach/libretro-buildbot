@@ -20,4 +20,4 @@ $BASEDIR/scripts/buildbot-linux_x86
 
 rm $BASEDIR/.tmp/buildbot.lock
 rm $BASEDIR/.tmp/built*
-
+rm -rfv $BASEDIR/.tmp/log
