@@ -20,4 +20,5 @@ $BASEDIR/scripts/buildbot-linux_armhf
 
 rm $BASEDIR/.tmp/buildbot.lock
 rm $BASEDIR/.tmp/built*
+rm -rfv $BASEDIR/.tmp/log
 
