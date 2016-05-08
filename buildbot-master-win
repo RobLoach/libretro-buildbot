@@ -1,5 +1,18 @@
 #!/bin/bash
 
+export RELEASE=$RELEASE
+export VERSION=$VERSION
+
+if [ "${RELEASE}" = "YES" ]; then
+   export FORCE_RETROARCH_BUILD=YES
+else
+   export FORCE_RETROARCH_BUILD=NO
+fi
+
+echo RELEASE=$RELEASE
+echo VERSION=$VERSION
+echo FORCE_RETROARCH_BUILD=$FORCE_RETROARCH_BUILD
+
 
 if [ ! -f /home/buildbot/tmp/buildbot.lock ]; then
    touch /home/buildbot/tmp/buildbot.lock

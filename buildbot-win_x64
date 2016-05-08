@@ -1,8 +1,13 @@
 #!/bin/bash
 
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=win-bot
-DEST=/home/buildbot/www/nightly/windows/x86_64
+BUILDBOT=vaporeon_win
+if [ "${RELEASE}" == "YES" ]; then
+   DEST=/home/buildbot/www/stable/$VERSION/windows/x86_64
+else
+   DEST=/home/buildbot/www/nightly/windows/x86_64
+fi
+
 LOGDEST=/home/buildbot/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=/home/buildbot/tmp/
@@ -19,7 +24,7 @@ echo ========================================== >> $TMPDIR/log/${BUILDBOT}/${LOG
 cd buildbot
 WORKDIR=$PWD
 LOGURL="https://floating.muncher.se/bot/connect/buildbot.php"
-SIG="meqecolzjg8uzvdlj0c4wrj7yjmmvg4psbwjkst9"
+SIG="ekkC3Zhw2LlPKpvqOxPNlrHEh27dCzL6gTIVbF36fSUBZBEOZGkh4gaF9LhpqRpX"
 
 ### windows x86_64 ###
 
