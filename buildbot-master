@@ -110,7 +110,7 @@ fi
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
 # Windows
-ssh $BUILDBOT_WIN -Y $BASEDIR/buildbot-master
+ssh $BUILDBOT_WIN -Y $BASEDIR/scripts/buildbot-script-win
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_WIN:$BASEDIR/www/* $BASEDIR/www/ -av

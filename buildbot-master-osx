@@ -23,7 +23,6 @@ else
    exit
 fi
 
-# Console targets first, usually smaller
 $BASEDIR/scripts/buildbot-osx
 $BASEDIR/scripts/buildbot-ios
 $BASEDIR/scripts/buildbot-ios9

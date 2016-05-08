@@ -1,0 +1,9 @@
+#!/bin/sh
+export BASEDIR=/home/buildbot
+cd $BASEDIR/scripts
+git pull
+cd $BASEDIR
+
+source $BASEDIR/scripts/release.conf
+
+$BASEDIR/scripts/buildbot-master-win
