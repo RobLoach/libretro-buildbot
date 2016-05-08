@@ -7,7 +7,7 @@ else
    export FORCE_RETROARCH_BUILD=NO
 fi
 
-echo Enviroment Vars for OSX:
+echo Enviroment Vars for WIN:
 echo
 echo LOGURL=$LOGURL
 echo UPLOAD=$UPLOAD
