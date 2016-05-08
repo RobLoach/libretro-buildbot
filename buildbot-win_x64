@@ -24,7 +24,6 @@ echo ========================================== >> $TMPDIR/log/${BUILDBOT}/${LOG
 cd buildbot
 WORKDIR=$PWD
 LOGURL="https://floating.muncher.se/bot/connect/buildbot.php"
-SIG="ekkC3Zhw2LlPKpvqOxPNlrHEh27dCzL6gTIVbF36fSUBZBEOZGkh4gaF9LhpqRpX"
 
 ### windows x86_64 ###
 
