@@ -1,99 +1,133 @@
 #!/bin/bash
 
+# ----- setup -----
+
 LOGDATE=`date +%Y-%m-%d`
-BUILDBOT=vaporeon_win
+BUILDBOT=win-bot
 if [ "${RELEASE}" == "YES" ]; then
-   DEST=/home/buildbot/www/stable/$VERSION/windows/x86
+   RADEST=$BASEDIR/www/stable/$VERSION/windows/x86/
+   FNAME=RetroArch
 else
-   DEST=/home/buildbot/www/nightly/windows/x86
+   RADEST=$BASEDIR/www/nightly/windows/x86/
+   FNAME=$(date +%F)_RetroArch
 fi
+DEST=$BASEDIR/www/nightly/windows/x86/
+LOGDEST=$BASEDIR/www/log
+TMPDIR=$BASEDIR/.tmp/
+WORKDIR=$BASEDIR/buildbot
+BOT=$WORKDIR/windows_x86
 
-LOGDEST=/home/buildbot/www/log/
-echo $LOGDATE $BUILDBOT
-TMPDIR=/home/buildbot/tmp/
-
-mkdir -p $DEST
-mkdir -p $LOGDEST
-
+cd $WORKDIR
+cd $BOT
+rm -rfv packages
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
-echo Buildbot Summary >> $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
-echo ========================================== >> $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+mkdir -p $DEST
+mkdir -p $RADEST
 
+echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
-cd buildbot
-WORKDIR=$PWD
-LOGURL="https://floating.muncher.se/bot/connect/buildbot.php"
+echo Variables:
+echo WORKDIR $WORKDIR
+echo BOTDIR  $BOT
+echo TMPDIR  $TMPDIR
+echo DEST    $DEST
+echo RADEST  $RADEST
+echo
+echo
 
-### windows x86 ###
+echo updating scripts | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
 
-# prepare build environment
-BOT=$PWD/windows_x86
-cd $BOT
 git pull
+git clean -xdf
 
-rm -rf packages
-#build cores
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/retroarch-windows-x86_dw2
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-generic
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-cross
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_sjlj-generic
+# ----- buildbot -----
 
-# create packages and cleanup
+echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/windows/retroarch-windows-x86_dw2
+
+echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo
+echo
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-generic
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_dw2-cross
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/windows/cores-windows-x86_sjlj-generic
+
+# ----- packaging -----
+
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
     echo "Nothing to do here!"
 else
-        echo BUILDBOT TASK: packaging cores
-        CORE_DIR=$PWD/packages/$(date +%F)_cores
-        RA_DIR=$PWD/packages/$(date +%F)_retroarch
+   echo packaging cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+   echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
-        rm -rfv $CORE_DIR
-        rm -rfv $RA_DIR
+   CORE_DIR=$BOT/packages/$(date +%F)_cores
 
-        mkdir -p $CORE_DIR
-        mkdir -p $RA_DIR
-        mkdir -p $DEST
+   echo Variables:
+   echo COREDIR $CORE_DIR
+   echo
+   echo
 
-        cd $CORE_DIR
-        mkdir ../latest
+   rm -rfv $CORE_DIR
+   mkdir -p $CORE_DIR
 
-        find ../../dist/win_x86 -name '*.dll' -mmin -2160 -exec cp -v '{}' . \;
+   cd $CORE_DIR
+   mkdir ../latest
 
-        find . -type f -name '*.dll' -exec zip -j '{}'.zip '{}' \;
-        find . -type f -name '*.dll' -exec rm -v '{}' \;
-        cp -v *.zip ../latest/
+   find $BOT/dist/win_x86 -name '*.dll' -mmin -2160 -exec cp '{}' . \;
 
-        cd $RA_DIR
-        cp -rv ../../retroarch/windows/*.exe .
-        7z a -mx9 $DEST/$(date +%F)_RetroArch.7z .
+   find . -type f -name '*.dll' -exec zip -j '{}'.zip '{}' \;
+   find . -type f -name '*.dll' -exec rm -v '{}' \;
+   cp -v *.zip ../latest/
+   rm -v *.zip
 
+   echo
+   echo
+   echo done ...
 
-        cd ..
-        rm -rfv $RA_DIR
-        mkdir -p $RA_DIR
+   echo packaging retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+   echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
 
-        cd $RA_DIR
-        cp -rv ../../retroarch/windows/* .
-        wget http://bot.libretro.com/nightly/windows/x86/redist-x86.7z
-        7z x redist-x86.7z
-        rm redist-x86.7z
+   RA_DIR=$BOT/packages/$(date +%F)_retroarch
 
-        wget http://bot.libretro.com/assets/frontend/bundle.zip
-        unzip bundle.zip
-        rm bundle.zip
+   echo Variables:
+   echo RADIR   $RA_DIR
+   echo
+   echo
 
-        7z a -mx9 $DEST/RetroArch.7z .
+   rm -rfv $RA_DIR
 
-        cd ..
-        rm -rfv $RA_DIR
+   mkdir -p $RA_DIR
 
-        cd $BOT
-        cp -rfv packages/* $DEST
-        cp -rfv $TMPDIR/log/* $LOGDEST
+   cd $RA_DIR
+   cp -rfv $BOT/retroarch/windows/* .
+   7z a -mx9 $RADEST/$(date +%F)_RetroArch.7z .
 
+   curl -O http://bot.libretro.com/assets/frontend/bundle.zip
+   unzip -o bundle.zip
+   rm -rf bundle.zip
 
+   wget http://bot.libretro.com/nightly/windows/x86/redist-x86.7z
+   7z x redist-x86.7z
+   rm redist-x86.7z
 
+   7z a -mx9 $RADEST/RetroArch.7z .
+
+   cd $BOT
+   rm -rfv $RA_DIR
+   cp -rfv packages/* $DEST
+   cp -rfv $TMPDIR/log/* $LOGDEST
+
+   echo
+   echo
+   echo done ...
 fi
 
-## end ###
+# ----- end -----
 rm $TMPDIR/built-cores $TMPDIR/built-frontend
+
