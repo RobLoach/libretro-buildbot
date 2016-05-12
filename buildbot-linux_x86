@@ -38,7 +38,7 @@ else
         cd $CORE_DIR
         mkdir ../latest
 
-        find ../../dist/unix -name '*.so' -mmin -2160 -exec cp '{}' . \;
+        find ../../dist/unix -name '*.so' -mmin -7200 -exec cp '{}' . \;
 
         find . -type f -name '*.so' -exec zip -j '{}'.zip '{}' \;
         find . -type f -name '*.so' -exec rm -v '{}' \;

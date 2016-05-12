@@ -118,14 +118,14 @@ rsync $BUILDBOT_WIN:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux x86
-ssh $BUILDBOT_LINUX_X86 -Y $BASEDIR/scripts/buildbot-script-linux_x86
+ssh $BUILDBOT_LINUX_X86 "sh -c 'nohup $BASEDIR/scripts/buildbot-script-linux_x86  > /dev/null 2>&1 &'"
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux armhf
-ssh $BUILDBOT_LINUX_ARMHF -Y $BASEDIR/scripts/buildbot-script-linux_armhf
+ssh $BUILDBOT_LINUX_ARMHF "sh -c 'nohup $BASEDIR/scripts/buildbot-script-linux_armhf > /dev/null 2>&1 &'"
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_LINUX_ARMHF:$BASEDIR/www/* $BASEDIR/www/ -av
