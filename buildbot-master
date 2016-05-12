@@ -107,7 +107,6 @@ if [ $? -eq 0 ]; then
    buildbot_log "retroarch build published [cydia]"
 fi
 
-
 # Cleanup the local cache
 find $BASEDIR/www -type f -exec rm -rv {} \;
 
@@ -126,11 +125,11 @@ rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux armhf
-#ssh $BUILDBOT_LINUX_ARMHF -Y $BASEDIR/scripts/buildbot-script-linux_armhf
+ssh $BUILDBOT_LINUX_ARMHF -Y $BASEDIR/scripts/buildbot-script-linux_armhf
 
 # Sync files from the VMs and upload
-#rsync $BUILDBOT_LINUX_ARMHF:$BASEDIR/www/* $BASEDIR/www/ -av
-#rsync $BASEDIR/www/ $UPLOAD -av
+rsync $BUILDBOT_LINUX_ARMHF:$BASEDIR/www/* $BASEDIR/www/ -av
+rsync $BASEDIR/www/ $UPLOAD -av
 
 # Cleanup the VM cache
 ssh $BUILDBOT_OSX -Y "rm -rfv /Users/buildbot/www/*"

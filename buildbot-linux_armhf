@@ -14,10 +14,10 @@ cd $BASEDIR
 cd buildbot
 WORKDIR=$PWD
 
-### linux x86_64 ###
+### linux armhf ###
 
 # prepare build environment
-BOT=$PWD/linux_x86_64
+BOT=$PWD/linux_armhf
 cd $BOT
 git pull
 git clean -xdf
