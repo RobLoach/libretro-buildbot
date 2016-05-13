@@ -118,7 +118,7 @@ rsync $BUILDBOT_WIN:$BASEDIR/www/* $BASEDIR/www/ -av
 rsync $BASEDIR/www/ $UPLOAD -av
 
 # Linux x86
-ssh $BUILDBOT_LINUX_X86 "screen -dmS $BASEDIR/scripts/buildbot-script-linux_x86"
+ssh $BUILDBOT_LINUX_X86 "screen -dmS buildbot $BASEDIR/scripts/buildbot-script-linux_x86"
 
 # Sync files from the VMs and upload
 rsync $BUILDBOT_LINUX_X86:$BASEDIR/www/* $BASEDIR/www/ -av
