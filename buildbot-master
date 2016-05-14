@@ -134,8 +134,8 @@ rsync $BASEDIR/www/ $UPLOAD -av
 # Cleanup the VM cache
 ssh $BUILDBOT_OSX -Y "rm -rfv /Users/buildbot/www/*"
 ssh $BUILDBOT_WIN -Y "rm -rfv $BASEDIR/www/*"
-ssh $BUILDBOT_LINUX_X86 -Y "if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then rm -rfv $BASEDIR/www/*; fi"
-ssh $BUILDBOT_LINUX_ARMHF -Y "if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then rm -rfv $BASEDIR/www/*; fi"
+#ssh $BUILDBOT_LINUX_X86 -Y "if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then rm -rfv $BASEDIR/www/*; fi"
+#ssh $BUILDBOT_LINUX_ARMHF -Y "if [ ! -f $BASEDIR/.tmp/buildbot.lock ]; then rm -rfv $BASEDIR/www/*; fi"
 
 # Cleanup the local cache
 rm -rfv $BASEDIR/www/*
