@@ -34,13 +34,13 @@ git clean -xdf
 rm -rf packages
 
 #build cores
-RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android
-RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android-dev
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/cores-android-jni
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/cores-android-cross
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame
-TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame2014
+RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android
+RELEASE=$RELEASE TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/retroarch-android-dev
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/cores-android-jni
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/cores-android-cross
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame
+TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=8 ./libretro-buildbot-recipe.sh recipes/android/cores-android-armv7-ndk-mame2014
 
 # create packages and cleanup
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
