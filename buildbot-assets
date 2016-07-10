@@ -9,7 +9,7 @@ TMPDIR=$BASEDIR/.tmp/
 
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
-echo Buildbot Summary | tee -a  $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo Buildbot Summary
 
 cd $BASEDIR
 cd buildbot
