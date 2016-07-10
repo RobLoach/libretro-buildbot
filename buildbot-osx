@@ -25,8 +25,8 @@ mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 mkdir -p $DEST
 mkdir -p $RADEST
 
-echo buildbot starting | tee $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
-echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo buildbot starting 
+echo --------------------------------------------------
 
 echo Variables:
 echo WORKDIR $WORKDIR
@@ -37,7 +37,7 @@ echo RADEST  $RADEST
 echo
 echo
 
-echo updating scripts | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo updating scripts
 echo
 echo
 
@@ -46,12 +46,12 @@ git clean -xdf
 
 # ----- buildbot -----
 
-echo building retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo building retroarch
 echo
 echo
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/apple/retroarch-osx-x64
 
-echo building cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+echo building cores
 echo
 echo
 TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildbot-recipe.sh recipes/apple/cores-osx-x64-generic
@@ -61,8 +61,8 @@ TMPDIR=$TMPDIR LOGURL=$LOGURL SIG=$SIG BOT=$BUILDBOT JOBS=2 $BOT/libretro-buildb
 if [ ! -f $TMPDIR/built-frontend -a ! -f $TMPDIR/built-cores ]; then
     echo "Nothing to do here!"
 else
-   echo packaging cores | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
-   echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+   echo packaging cores
+   echo --------------------------------------------------
 
    CORE_DIR=$BOT/packages/$(date +%F)_cores
 
@@ -88,8 +88,8 @@ else
    echo
    echo done ...
 
-   echo packaging retroarch | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
-   echo -------------------------------------------------- | tee -a $TMPDIR/log/${BUILDBOT}/${LOGDATE}.log
+   echo packaging retroarch
+   echo --------------------------------------------------
 
    RA_DIR=$BOT/packages/$(date +%F)_retroarch
    RACG_DIR=$BOT/packages/$(date +%F)_retroarch_cg
