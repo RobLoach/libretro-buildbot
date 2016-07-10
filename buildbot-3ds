@@ -12,7 +12,7 @@ LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
 
-mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+
 echo Buildbot Summary
 
 cd $BASEDIR
@@ -48,6 +48,7 @@ else
       7z a -mx9 $DEST/$(date +%F)_RetroArch_cia.7z cia retroarch
       7z a -mx9 $DEST/$(date +%F)_RetroArch_3ds.7z rom retroarch
     fi
+    cp -rfv $TMPDIR/log/* $LOGDEST
 fi
 
 ## end ###

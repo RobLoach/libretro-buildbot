@@ -20,7 +20,7 @@ cd $WORKDIR
 cd $BOT
 rm -rfv packages
 
-mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+
 mkdir -p $DEST
 mkdir -p $RADEST
 
