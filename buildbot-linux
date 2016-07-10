@@ -6,6 +6,7 @@ DEST=$BASEDIR/www/nightly/linux/x86_64
 LOGDEST=$BASEDIR/www/log
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 
 
 echo Buildbot Summary

@@ -15,6 +15,7 @@ LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
 BOT=$WORKDIR/ios9
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 
 cd $WORKDIR
 cd $BOT

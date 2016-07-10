@@ -13,7 +13,7 @@ fi
 
 echo $LOGDATE $BUILDBOT $RELEASE
 TMPDIR=$BASEDIR/.tmp/
-
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 
 
 

@@ -6,8 +6,8 @@ DEST=$BASEDIR/www/assets/frontend
 LOGDEST=$BASEDIR/www/log/
 echo $LOGDATE $BUILDBOT
 TMPDIR=$BASEDIR/.tmp/
-
 mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
+
 mkdir -p $DEST
 echo Buildbot Summary
 
@@ -124,7 +124,6 @@ mkdir cheats
 touch cheats/empty
 zip -r $DEST/bundle.zip *
 
-cp -rfv $TMPDIR/log/* $LOGDEST
 cd $BOT
 rm -rf $TMPDIR/shaders_glsl
 ## end ###

@@ -16,6 +16,7 @@ LOGDEST=$BASEDIR/www/log
 TMPDIR=$BASEDIR/.tmp/
 WORKDIR=$BASEDIR/buildbot
 BOT=$WORKDIR/windows_x86
+mkdir -p $TMPDIR/log/$BUILDBOT/${LOGDATE}
 
 cd $WORKDIR
 cd $BOT
