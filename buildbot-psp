@@ -45,6 +45,7 @@ else
    else
 	   7z a -mx9 $DEST/$(date +%F)_RetroArch.7z
    fi
+   cp -rfv $TMPDIR/log/* $LOGDEST
 fi
 ## end ###
 rm $TMPDIR/built-cores $TMPDIR/built-frontend
